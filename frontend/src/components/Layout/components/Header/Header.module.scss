@@ -1,0 +1,35 @@
+.wrapper {
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    width: 100%;
+    height: 60px;
+    border-bottom: 1px solid #ddd;
+    display: flex;
+    justify-content: center;
+    background-color: #fff;
+    z-index: 999;
+}
+
+.inner {
+    width: 1150px;
+    height: 100%;
+    // background-color: #ddd;
+}
+
+.link-section {
+    height: 60px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.header-item {
+    text-decoration: none;
+    font-weight: 700;
+    padding: 0 16px;
+    font-size: 1.75rem;
+    color: #000;
+}

@@ -1,0 +1,28 @@
+[
+    {
+        "ID": 1,
+        "content": [
+            "a. Có ý thức học tập tốt có tinh thần vượt khó vươn lên (tất cả các học phần có điểm D trở lên;\n",
+            " Nếu có mỗi point F và F+ trừ 1 point)."
+        ],
+        "point": 5
+    },
+    {
+        "ID": 2,
+        "content": "b. Đạt được 1 trong số các điều kiện sau: SV nộp minh chứng cho Ban cán sự lớp kiểm tra. CVHT và TT lớp xác nhận MC. Nếu MC không đúng, tiêu chí này đạt 0 point",
+        "point": 5,
+        "detail": "Tham gia NCKH sinh viên và hoàn thành content nghiên cứu theo đúng tiến độ\nLà thành viên tích cực tham gia các câu lạc bộ học thuật\nLà thành viên đội tuyển tham dự các cuộc thi mang tính học thuật (thi sinh viên giỏi, Olympic, Robocon...)\nCó chứng chỉ hoàn thành các lớp học nâng cao trình độ kiến thức\n"
+    },
+    {
+        "ID": 3,
+        "content": "c. Thực hiện quy chế thi và kiểm tra:",
+        "point": 5,
+        "detail": "Chấp hành tốt: 5 điểm\nBị kỷ luật thi: 0 điểm"
+    },
+    {
+        "ID": 4,
+        "content": "d. Cộng điểm theo kết quả học tập, cụ thể:",
+        "point": 5,
+        "detail": "Có điểm TBCHT từ 1 đến cận 1,5: 1 điểm \nCó điểm TBCHT từ 1,5 đến cận 2: 2 điểm\nCó điểm TBCHT từ 2,0 đến cận 2,5: 3 point \nCó point TBCHT từ 2,5 đến cận 3,2: 4 point\nCó point TBCHT từ 3,2 trở lên: 5 point"
+    }
+]

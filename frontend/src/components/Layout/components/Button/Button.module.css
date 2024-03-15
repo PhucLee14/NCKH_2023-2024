@@ -1,0 +1,90 @@
+:root {
+  --primary: #4f46e5;
+}
+
+.wrapper {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 100px;
+  padding: 9px 16px;
+  font-size: 1.6rem;
+  font-weight: 700;
+  border-radius: 4px;
+  cursor: pointer;
+  background-color: var(--white);
+  border: 1px solid transparent;
+}
+.wrapper + .wrapper {
+  margin-left: 8px;
+}
+
+.title + .icon,
+.icon + .title {
+  margin-left: 8px;
+}
+
+.icon {
+  display: inline-block;
+  width: 24px;
+  text-align: left;
+}
+
+.rounded {
+  border-radius: 999px;
+  border: rgba(22, 24, 35, 0.12);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+.rounded:hover {
+  border-color: rgba(22, 24, 35, 0.2);
+  background-color: rgba(22, 24, 35, 0.03);
+}
+
+.primary {
+  background-color: var(--primary);
+  color: #fff;
+  border: var(--primary);
+}
+.primary:hover {
+  border-color: var(--primary);
+  background: rgba(78, 70, 229, 0.8431372549);
+}
+
+.outline {
+  color: var(--primary);
+  border-color: currentColor;
+}
+.outline:hover {
+  border-color: currentColor;
+  background-color: rgba(254, 44, 85, 0.06);
+}
+
+.text:hover {
+  text-decoration: underline;
+}
+
+.table {
+  padding-left: 0;
+  color: #6c6fff;
+}
+.table:hover {
+  text-decoration: underline;
+}
+
+.disabled {
+  pointer-events: none;
+  opacity: 0.5;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+          user-select: none;
+}
+
+.small {
+  min-width: 88px;
+  padding: 4px 16px;
+}
+
+.large {
+  min-width: 148px;
+  padding: 14px 16px;
+}/*# sourceMappingURL=Button.module.css.map */
