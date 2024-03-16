@@ -1,0 +1,112 @@
+[
+    {
+        "ID": 1,
+        "content": "a. Có ý thức học tập tốt có tinh thần vượt khó vươn lên (tất cả các học phần có điểm D trở lên; Nếu có mỗi điểm F và F+ trừ 1 điểm).\nĐánh giá về ý thức tham gia học tập",
+        "point": 5
+    },
+    {
+        "ID": 2,
+        "content": "b. Đạt được 1 trong số các điều kiện sau: SV nộp minh chứng cho Ban cán sự lớp kiểm tra. CVHT và TT lớp xác nhận MC. Nếu MC không đúng, tiêu chí này đạt 0 điểm\n- Tham gia NCKH sinh viên và hoàn thành nội dung nghiên cứu theo đúng tiến độ \n- Là thành viên tích cực tham gia các câu lạc bộ học thuật - Là thành viên đội tuyển tham dự các cuộc thi mang tính học thuật (thi sinh viên giỏi, Olympic, Robocon...) \n- Có chứng chỉ hoàn thành các lớp học nâng cao trình độ kiến thức\nĐánh giá về ý thức tham gia học tập",
+        "point": 5
+    },
+    {
+        "ID": 3,
+        "content": "c. Thực hiện quy chế thi và kiểm tra:\n- Chấp hành tốt: 5 điểm \n- Bị kỷ luật thi: 0 điểm\nĐánh giá về ý thức tham gia học tập",
+        "point": 5
+    },
+    {
+        "ID": 4,
+        "content": "d. Cộng điểm theo kết quả học tập, cụ thể:\n- Có điểm TBCHT từ 1 đến cận 1,5: 1 điểm \n- Có điểm TBCHT từ 1,5 đến cận 2: 2 điểm \n- Có điểm TBCHT từ 2,0 đến cận 2,5: 3 điểm \n- Có điểm TBCHT từ 2,5 đến cận 3,2: 4 điểm \n- Có điểm TBCHT từ 3,2 trở lên: 5 điểm\nĐánh giá về ý thức tham gia học tập",
+        "point": 5
+    },
+    {
+        "ID": 5,
+        "content": "a. Thực hiện tốt việc tham gia bảo hiểm y tế\nĐánh giá về ý thức chấp hành nội quy, quy chế, quy định trong nhà trường",
+        "point": 5
+    },
+    {
+        "ID": 6,
+        "content": "b. Thực hiện tốt quy định về đóng học phí\nĐánh giá về ý thức chấp hành nội quy, quy chế, quy định trong nhà trường",
+        "point": 5
+    },
+    {
+        "ID": 7,
+        "content": "c. Thực hiện tốt quy định về đánh giá Giảng viên\nĐánh giá về ý thức chấp hành nội quy, quy chế, quy định trong nhà trường",
+        "point": 2.5
+    },
+    {
+        "ID": 8,
+        "content": "d. Thực hiện tốt quy định về đánh giá Cố vấn học tập\nĐánh giá về ý thức chấp hành nội quy, quy chế, quy định trong nhà trường",
+        "point": 2.5
+    },
+    {
+        "ID": 9,
+        "content": "e. Tham gia nghe giảng tuần sinh hoạt sinh viên công dân năm học\n- Tham gia: 2.5 điểm \n- Không tham gia: 0 điểm\nĐánh giá về ý thức chấp hành nội quy, quy chế, quy định trong nhà trường",
+        "point": 2.5
+    },
+    {
+        "ID": 10,
+        "content": "f. Thực hiện tốt bài thu hoạch tuần sinh hoạt công dân năm học\n- Thực hiện tốt: 2.5 điểm \n- Không thực hiện: 0 điểm\nĐánh giá về ý thức chấp hành nội quy, quy chế, quy định trong nhà trường",
+        "point": 2.5
+    },
+    {
+        "ID": 11,
+        "content": "g. Tham gia đầy đủ các buổi họp lớp, họp chi đoàn,…do Nhà trường, Khoa/BM tổ chức (nếu vắng một buổi sẽ bị trừ 3 điểm)\n- Tham gia đầy đủ: 5 điểm \n- Vắng 1 buổi: 2 điểm \n- Vắng 2 buổi trở lên: 0 điểm\nĐánh giá về ý thức chấp hành nội quy, quy chế, quy định trong nhà trường",
+        "point": 5
+    },
+    {
+        "ID": 12,
+        "content": "a. Tham gia các buổi nói chuyện chuyên đề, các buổi tọa đàm, các cuộc thi tìm hiểu do Khoa/BM và Nhà trường tổ chức:\n- Tham gia: 6 điểm \n- Không tham gia: 0 điểm\nĐánh giá ý thức tham gia các hoạt động chính trị-xã hội, văn hoá, văn nghệ, thể thao, phòng chống tội phạm và các tệ nạn xã hội",
+        "point": 6
+    },
+    {
+        "ID": 13,
+        "content": "b. Tham gia các chương trình ra quân, các hoạt động công ích, tình nguyện tại địa phương hoặc Nhà trường tổ chức:\n- Tham gia: 6 điểm \n- Không tham gia: 0 điểm\nĐánh giá ý thức tham gia các hoạt động chính trị-xã hội, văn hoá, văn nghệ, thể thao, phòng chống tội phạm và các tệ nạn xã hội",
+        "point": 6
+    },
+    {
+        "ID": 14,
+        "content": "c. Tham gia các hoạt động văn hóa, văn nghệ, thể thao các cấp từ lớp, chi hội, chi đoàn trở lên:\n- Tham gia: 6 điểm \n- Không tham gia: 0 điểm\nĐánh giá ý thức tham gia các hoạt động chính trị-xã hội, văn hoá, văn nghệ, thể thao, phòng chống tội phạm và các tệ nạn xã hội",
+        "point": 6
+    },
+    {
+        "ID": 15,
+        "content": "d. Tham gia tuyên truyền, phòng chống tội phạm và các tệ nạn xã hội:\n- Tham gia: 2 điểm \n- Không tham gia: 0 điểm\nĐánh giá ý thức tham gia các hoạt động chính trị-xã hội, văn hoá, văn nghệ, thể thao, phòng chống tội phạm và các tệ nạn xã hội",
+        "point": 2
+    },
+    {
+        "ID": 16,
+        "content": "a. Chấp hành tốt pháp luật của Nhà nước, quy định của Nhà trường và nơi cư trú\n- Chấp hành tốt: 6 điểm \n- Chấp hành không tốt: 0 điểm\nĐánh giá ý thức công dân quan hệ cộng đồng",
+        "point": 6
+    },
+    {
+        "ID": 17,
+        "content": "b. Ý thức tham gia các hoạt động xã hội có thành tích được ghi nhận, biểu dương, khen thưởng: SV nộp minh chứng cho Ban cán sự lớp kiểm tra. CVHT và TT lớp xác nhận MC. Nếu MC không đúng, tiêu chí này đạt 0 điểm\nĐánh giá ý thức công dân quan hệ cộng đồng",
+        "point": 4
+    },
+    {
+        "ID": 18,
+        "content": "c. Có tinh thần chia sẻ, giúp đỡ người gặp khó khăn, hoạn nạn; giúp đỡ bạn bè trong cuộc sống, học tập\n- Thực hiện: 5 điểm\n - Không thực hiện: 0 điểm\nĐánh giá ý thức công dân quan hệ cộng đồng",
+        "point": 5
+    },
+    {
+        "ID": 19,
+        "content": "d. Cập nhật và khai báo thông tin liên lạc của cá nhân, của gia đình chính xác theo yêu cầu của Nhà trường\n- Tham gia: 5 điểm \n- Không tham gia: 0 điểm\nĐánh giá ý thức công dân quan hệ cộng đồng",
+        "point": 5
+    },
+    {
+        "ID": 20,
+        "content": "e. Tham gia giữ gìn an ninh trật tự, bảo vệ cảnh quan môi trường, nếp sống văn minh nơi công cộng, quảng bá hình ảnh đẹp của Nhà trường trên các trang mạng xã hội:\n- Tham gia: 5 điểm \n- Không tham gia: 0 điểm\nĐánh giá ý thức công dân quan hệ cộng đồng",
+        "point": 5
+    },
+    {
+        "ID": 21,
+        "content": "a. Đạt được một trong số các điều kiện sau: SV nộp minh chứng cho Ban cán sự lớp kiểm tra. CVHT và TT lớp xác nhận MC. Nếu MC không đúng, tiêu chí này đạt 0 điểm\n- Có trách nhiệm cao và thực hiện nhiệm vụ hiệu quả khi tham gia các tổ chức như: Đội SVTN cấp Trường; Tổ thăm dò dư luận; Ban chủ nhiệm các CLB; là thành viên tiêu biểu, tích cực của các CLB; là cán bộ Lớp, Đoàn, Hội, Chi bộ sinh viên các cấp... \n- Đạt giải trong các cuộc thi mang tính học thuật như: NCKH, Olympic, Robocon,… từ cấp Trường trở lên \n- Được khen thưởng trong các hoạt động chính trị, xã hội, văn hóa, thể thao cấp Trường \n- Được tham gia vào lớp bồi dưỡng nhận thức về Đảng CSVN \nĐánh giá về ý thức và kết quả khi tham gia công tác cán bộ lớp, các đoàn thể, tổ chức trong Nhà trường hoặc đạt được thành thành tích đặc biệt trong học, tập rèn luyện",
+        "point": 5
+    },
+    {
+        "ID": 22,
+        "content": "b. Tham gia vào việc tổ chức các hoạt động do Khoa/BM, Nhà trường tổ chức:\n- Tham gia: 5 điểm \n- Không tham gia: 0 điểm\nĐánh giá về ý thức và kết quả khi tham gia công tác cán bộ lớp, các đoàn thể, tổ chức trong Nhà trường hoặc đạt được thành thành tích đặc biệt trong học, tập rèn luyện",
+        "point": 5
+    }
+]

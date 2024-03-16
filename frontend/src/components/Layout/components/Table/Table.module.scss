@@ -29,7 +29,29 @@ tbody tr:hover {
 tbody td {
     position: relative;
     border-bottom: 1px solid #ddd;
+    &:first-child {
+        text-align: center;
+    }
+    &:nth-last-child(2) {
+        text-align: center;
+    }
 }
 .multi-line {
     white-space: pre-line;
+}
+.activity-type {
+    color: #4f46e5;
+    font-size: 1.25rem;
+    font-style: italic;
+    margin-top: 8px;
+    font-weight: 700;
+    p:last-child {
+        margin-top: 8px;
+    }
+}
+.activity-detail {
+    font-weight: normal;
+    font-style: normal;
+    color: #000;
+    font-size: 1.5rem;
 }
