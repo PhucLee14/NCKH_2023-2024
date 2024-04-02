@@ -6,6 +6,7 @@ import Upload from "./pages/upload/Upload";
 import NewsFeed from "./pages/newsfeed/NewsFeed";
 import { publicRoutes } from "./routes/Routes";
 import DefaultLayout from "./components/Layouts/DefaultLayout";
+import { Toaster } from "react-hot-toast";
 
 function App() {
     return (
@@ -28,6 +29,7 @@ function App() {
                         );
                     })}
                 </Routes>
+                <Toaster />
             </BrowserRouter>
         </>
     );

@@ -4,7 +4,6 @@ import cors from "cors";
 import newsFeedModel from "./models/newsfeed.model.js";
 
 import connectToMongoDb from "./db/connectToMongoDB.js";
-import mongoose from "mongoose";
 
 const app = express();
 app.use(cors());
