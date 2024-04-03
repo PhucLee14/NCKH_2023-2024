@@ -3,6 +3,7 @@ import toast, { Toaster } from "react-hot-toast";
 import axios from "axios";
 
 const Upload = () => {
+    const [title, setTitle] = useState("");
     const [content, setContent] = useState("");
     const [type, setType] = useState("");
     const [images, setImages] = useState([]);
@@ -75,12 +76,17 @@ const Upload = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log(content, type, typeof images);
+        console.log(title, content, type, typeof images);
         if (content == "" || type == "DEFAULT") {
             toast.error("Please input your content");
         } else {
             axios
-                .post("http://localhost:5000/upload", { content, type, images })
+                .post("http://localhost:5000/upload", {
+                    title,
+                    content,
+                    type,
+                    images,
+                })
                 .then((res) => {
                     toast.success("Done");
                     console.log(res);
@@ -88,8 +94,10 @@ const Upload = () => {
                 .catch((err) => {
                     console.log(err);
                 });
+            document.querySelector("#text-title").value = "";
             document.querySelector("#text-content").value = "";
             document.querySelector("#select-type").selectedIndex = "0";
+            setTitle("");
             setContent("");
             setType("");
             setImages([]);
@@ -99,6 +107,16 @@ const Upload = () => {
     return (
         <>
             <form className="h-[calc(100%-3.5rem)] flex flex-col justify-center items-center mt-14">
+                <div className="w-1/2 bg-white rounded-xl mt-4 flex flex-col shadow-2xl flex flex-col items-center">
+                    <input
+                        id="text-title"
+                        className="textarea textarea-bordered w-full border-none focus:outline-none"
+                        placeholder="Title"
+                        onChange={(e) => {
+                            setTitle(e.target.value);
+                        }}
+                    ></input>
+                </div>
                 <div className="w-1/2 bg-white rounded-xl mt-4 flex flex-col h-64 shadow-2xl flex flex-col items-center">
                     <textarea
                         id="text-content"

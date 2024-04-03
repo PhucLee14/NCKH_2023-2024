@@ -15,6 +15,14 @@ const PORT = process.env.PORT || 5000;
 app.get("/", (req, res) => {
     res.send("Hello word!");
 });
+
+app.get("/newsfeed", (req, res) => {
+    newsFeedModel
+        .find({})
+        .then((newsfeed) => res.json(newsfeed))
+        .catch((err) => res.json("loi ben backend"));
+});
+
 app.get("/upload", (req, res) => {
     res.send("upload");
 });
