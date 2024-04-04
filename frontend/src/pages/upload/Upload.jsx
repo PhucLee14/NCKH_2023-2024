@@ -51,9 +51,13 @@ const Upload = () => {
 
     const onFileSelect = (e) => {
         const files = e.target.files;
+        console.log(files);
         if (files.length === 0) return;
         for (let i = 0; i < files.length; i++) {
-            if (files[i].type.split("/")[0] !== "image") continue;
+            if (files[i].type.split("/")[0] !== "image") {
+                console.log(files[i]);
+                continue;
+            }
             if (
                 !images.some((e) => {
                     e.name === files[i].name;
@@ -76,7 +80,7 @@ const Upload = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log(title, content, type, typeof images);
+        console.log(title, content, type, images);
         if (content == "" || type == "DEFAULT") {
             toast.error("Please input your content");
         } else {
@@ -135,22 +139,37 @@ const Upload = () => {
                         <option disabled className="bg-white" value="DEFAULT">
                             Choose type
                         </option>
-                        <option className="bg-white" value="0">
+                        <option
+                            className="bg-white"
+                            value="Đánh giá về ý thức tham gia học tập"
+                        >
                             Đánh giá về ý thức tham gia học tập
                         </option>
-                        <option className="bg-white" value="1">
+                        <option
+                            className="bg-white"
+                            value="Đánh giá về ý thức chấp hành nội quy, quy chế, quy định trong nhà trường"
+                        >
                             Đánh giá về ý thức chấp hành nội quy, quy chế, quy
                             định trong nhà trường
                         </option>
-                        <option className="bg-white" value="2">
+                        <option
+                            className="bg-white"
+                            value="Đánh giá ý thức tham gia các hoạt động chính trị-xã hội, văn hoá, văn nghệ, thể thao, phòng chống tội phạm và các tệ nạn xã hội"
+                        >
                             Đánh giá ý thức tham gia các hoạt động chính trị-xã
                             hội, văn hoá, văn nghệ, thể thao, phòng chống tội
                             phạm và các tệ nạn xã hội
                         </option>
-                        <option className="bg-white" value="3">
+                        <option
+                            className="bg-white"
+                            value="Đánh giá ý thức công dân quan hệ cộng đồng"
+                        >
                             Đánh giá ý thức công dân quan hệ cộng đồng
                         </option>
-                        <option className="bg-white" value="4">
+                        <option
+                            className="bg-white"
+                            value="Đánh giá về ý thức và kết quả khi tham gia công tác cán bộ lớp, các đoàn thể, tổ chức trong Nhà trường hoặc đạt được thành thành tích đặc biệt trong học, tập rèn luyện"
+                        >
                             Đánh giá về ý thức và kết quả khi tham gia công tác
                             cán bộ lớp, các đoàn thể, tổ chức trong Nhà trường
                             hoặc đạt được thành thành tích đặc biệt trong học,

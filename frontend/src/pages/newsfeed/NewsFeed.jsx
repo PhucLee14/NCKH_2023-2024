@@ -15,11 +15,13 @@ const NewsFeed = () => {
         <div className="mt-16 flex flex-col items-center">
             {newsFeeds.map((news, index) => {
                 return (
-                    <div className="w-1/2 h-96 bg-white border-gray-300 border rounded-xl mb-4">
+                    <div className="w-1/2  bg-white border-gray-300 border rounded-xl mb-4">
                         <h1 className="m-4 mt-2 font-bold text-lg">
                             {news.title}
                         </h1>
-                        <p>{news.type}</p>
+                        <p className="ml-4 font-bold text-xs italic text-indigo-600">
+                            {news.type}
+                        </p>
                         <div className="m-4">{news.content}</div>
                         <div className="flex flex-wrap">
                             {news.images.map((image, i) => {
