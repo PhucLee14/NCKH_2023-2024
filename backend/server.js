@@ -2,6 +2,7 @@ import express from "express";
 import dotenv from "dotenv";
 import cors from "cors";
 import multer from "multer";
+import path from "path";
 
 import newsFeedModel from "./models/newsfeed.model.js";
 import connectToMongoDb from "./db/connectToMongoDB.js";
@@ -10,24 +11,20 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-const storage = multer.diskStorage({
-    destination: (req, file, cb) => {
-        cb(null, "public/images");
-    },
-    filename: (req, file, cb) => {
-        cb(
-            null,
-            file.fieldname + "_" + Date.now() + path.extname(file.originalname)
-        );
-    },
-});
-
-const upload = multer({
-    storage: storage,
-});
-
 dotenv.config();
 const PORT = process.env.PORT || 5000;
+
+// const storage = multer.diskStorage({
+//     destination: (req, file, cb) => {
+//         cb(null, "../frontend/src/assets/Images");
+//     },
+//     filename: (req, file, cb) => {
+//         console.log(file);
+//         cb(null, Date.now() + path.extname(file.originalname));
+//     },
+// });
+
+// const upload = multer({ storage: storage });
 
 app.get("/", (req, res) => {
     res.send("Hello word!");

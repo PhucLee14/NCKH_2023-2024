@@ -1,15 +1,33 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
 import axios from "axios";
+import firebase from "firebase/compat/app";
+import "firebase/compat/storage";
+import app from "../../firebase";
+import {
+    getStorage,
+    ref,
+    uploadBytesResumable,
+    getDownloadURL,
+} from "firebase/storage";
 
 const Upload = () => {
     const [title, setTitle] = useState("");
     const [content, setContent] = useState("");
     const [type, setType] = useState("");
-    const [images, setImages] = useState([]);
+    const [images, setImages] = useState("");
+    const [video, setVideo] = useState(undefined);
+    const [imgPerc, setImgPerc] = useState(0);
+    const [videoPerc, setVideoPerc] = useState(0);
+    const [check, setCheck] = useState(false);
 
     const [isDragging, setIsDragging] = useState(false);
     const inputRef = useRef(null);
+
+    useEffect(() => {
+        images && uploadFile(images, "imgUrl");
+        console.log("check: ", check);
+    }, [check]);
 
     const onDragOver = (e) => {
         e.preventDefault();
@@ -49,29 +67,65 @@ const Upload = () => {
         console.log(images);
     };
 
-    const onFileSelect = (e) => {
-        const files = e.target.files;
-        console.log(files);
-        if (files.length === 0) return;
-        for (let i = 0; i < files.length; i++) {
-            if (files[i].type.split("/")[0] !== "image") {
-                console.log(files[i]);
-                continue;
+    const uploadFile = (file, fileType) => {
+        console.log("Vao uploadfile");
+        console.log(check);
+        const storage = getStorage(app);
+        const folder = fileType === "imgUrl" ? "image/" : "";
+        const fileName = new Date().getTime() + file.name;
+        const storageRef = ref(storage, folder + fileName);
+        const uploadTask = uploadBytesResumable(storageRef, file);
+        let i = 0;
+        uploadTask.on(
+            "state_changed",
+            (snapshot) => {
+                i++;
+                console.log(i);
+                const progress =
+                    (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                fileType === "imgUrl"
+                    ? setImgPerc(Math.round(progress))
+                    : setVideoPerc(Math.round(progress));
+                switch (snapshot.state) {
+                    case "paused":
+                        console.log("Upload is paused");
+                        break;
+                    case "running":
+                        console.log("Upload is running");
+                        break;
+                    default:
+                        break;
+                }
+            },
+            (error) => {
+                console.log(error);
+                switch (error.code) {
+                    case "storage/unauthorized":
+                        // User doesn't have permission to access the object
+                        console.log(error);
+                        break;
+                    case "storage/canceled":
+                        // User canceled the upload
+                        break;
+                    case "storage/unknown":
+                        // Unknown error occurred, inspect error.serverResponse
+                        break;
+                    default:
+                        break;
+                }
+            },
+            () => {
+                // Upload completed successfully, now we can get the download URL
+                getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+                    console.log(
+                        "DownloadURL - ",
+                        downloadURL,
+                        typeof downloadURL
+                    );
+                    setImages(downloadURL);
+                });
             }
-            if (
-                !images.some((e) => {
-                    e.name === files[i].name;
-                })
-            ) {
-                setImages((prevImages) => [
-                    ...prevImages,
-                    {
-                        name: files[i].name,
-                        url: URL.createObjectURL(files[i]),
-                    },
-                ]);
-            }
-        }
+        );
     };
 
     const deleteImage = (index) => {
@@ -181,7 +235,7 @@ const Upload = () => {
                     <div
                         className="flex justify-center items-center border-dashed border-spacing-8 border-slate-400 border-2 p-16 rounded-2xl bg-purple-50 w-full m-6"
                         onDragOver={onDragOver}
-                        onDragleave={onDragLeave}
+                        onDragLeave={onDragLeave}
                         onDrop={onDrop}
                     >
                         <span className="text-slate-400">
@@ -192,7 +246,11 @@ const Upload = () => {
                             multiple
                             hidden
                             ref={inputRef}
-                            onChange={onFileSelect}
+                            onChange={(e) => {
+                                setCheck(!check);
+                                setImages(e.target.files[0]);
+                                console.log(check);
+                            }}
                             accept="image/png, image/gif, image/jpeg, video/mp4,video/x-m4v,video/*"
                         />
                         <span
@@ -206,34 +264,18 @@ const Upload = () => {
                     </div>
                 </div>
                 <div className="w-1/3 bg-slate-50 flex flex-wrap shadow-xl mt-4 rounded-lg">
-                    {/* <div className="bg-gray-500 w-16 h-16 rounded-md m-2 mr-1 relative">
-                        <span className="absolute bg-white rounded-full w-4 h-4 text-center -right-1 -top-1 leading-4 cursor-pointer">
+                    <div className="bg-gray-500 w-16 h-16 rounded-md m-2 mr-1 relative overflow-hidden">
+                        <span
+                            className="absolute bg-white rounded-full w-4 h-4 text-center right-0 top-1 right-1 leading-3 cursor-pointer"
+                            onClick={() => deleteImage(index)}
+                        >
                             &times;
                         </span>
-                        <img src="" alt="" className="w-full h-full" />
-                    </div> */}
-
-                    {images.map((image, index) => (
-                        <div
-                            className="bg-gray-500 w-16 h-16 rounded-md m-2 mr-1 relative overflow-hidden"
-                            key={index}
-                        >
-                            <span
-                                className="absolute bg-white rounded-full w-4 h-4 text-center right-0 top-1 mr-1 leading-3 cursor-pointer"
-                                onClick={() => deleteImage(index)}
-                            >
-                                &times;
-                            </span>
-                            <img
-                                src={image.url}
-                                alt={image.name}
-                                className="w-full h-full"
-                            />
-                        </div>
-                    ))}
+                        <img src={images} alt="" className="w-full h-full" />
+                    </div>
                 </div>
                 <button
-                    class="btn btn-active btn-primary text-white m-4"
+                    className="btn btn-active btn-primary text-white m-4"
                     onClick={handleSubmit}
                 >
                     Submit
