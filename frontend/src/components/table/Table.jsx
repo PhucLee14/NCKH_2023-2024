@@ -1,9 +1,5 @@
 import * as React from "react";
 import { useTable } from "react-table";
-// import styles from "./Table.module.scss";
-import drlData from "../../assets/DIEM_REN_LUYEN.json";
-
-var i = 1;
 function Table({ dataName }) {
     const data = React.useMemo(() => dataName, []);
     const columns = React.useMemo(

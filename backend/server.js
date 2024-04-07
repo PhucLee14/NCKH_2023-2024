@@ -14,18 +14,6 @@ app.use(express.json());
 dotenv.config();
 const PORT = process.env.PORT || 5000;
 
-// const storage = multer.diskStorage({
-//     destination: (req, file, cb) => {
-//         cb(null, "../frontend/src/assets/Images");
-//     },
-//     filename: (req, file, cb) => {
-//         console.log(file);
-//         cb(null, Date.now() + path.extname(file.originalname));
-//     },
-// });
-
-// const upload = multer({ storage: storage });
-
 app.get("/", (req, res) => {
     res.send("Hello word!");
 });
@@ -41,10 +29,44 @@ app.get("/upload", (req, res) => {
     res.send("upload");
 });
 
+app.get("/getNews/:id", (req, res) => {
+    const id = req.params.id;
+    newsFeedModel
+        .findById({ _id: id })
+        .then((newsfeed) => res.json(newsfeed))
+        .catch((err) => res.json(err));
+});
+
+app.put("/update/:id", (req, res) => {
+    const id = req.params.id;
+    newsFeedModel
+        .findByIdAndUpdate(
+            { _id: id },
+            {
+                type: req.body.type,
+                title: req.body.title,
+                content: req.body.content,
+                images: req.body.images,
+            }
+        )
+        .then((newsfeed) => res.json(newsfeed))
+        .catch((err) => res.json(err));
+});
+
 app.post("/upload", (req, res) => {
     newsFeedModel
         .create(req.body)
         .then((newsfeed) => res.json(newsfeed))
+        .catch((err) => res.json(err));
+});
+
+app.delete("/delete/:id", (req, res) => {
+    const id = req.params.id;
+    newsFeedModel
+        .findByIdAndDelete({
+            _id: id,
+        })
+        .then((res) => res.json(res))
         .catch((err) => res.json(err));
 });
 
