@@ -3,11 +3,14 @@ import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { BsThreeDots } from "react-icons/bs";
 import { Link } from "react-router-dom";
+import { extractTime } from "../../utils/extractTime";
 
 const NewsFeed = () => {
     const [newsFeeds, setNewsFeeds] = useState([]);
     const [id, setId] = useState("");
     const [displayDropdown, setDisplayDropdown] = useState(false);
+
+    const formattedTime = extractTime(newsFeeds.createdAt);
 
     useEffect(() => {
         axios
@@ -54,26 +57,35 @@ const NewsFeed = () => {
                                     tabIndex={0}
                                     className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52"
                                 >
-                                    <li className="pl-4 pr-10 pt-2 pb-2 text-sm font-medium hover:bg-slate-200">
+                                    <li className="text-sm font-medium">
                                         <Link to={`/update/${news._id}`}>
                                             Update
                                         </Link>
                                     </li>
                                     <li
-                                        className="pl-4 pr-10 pt-2 pb-2 text-sm font-medium hover:bg-slate-200"
+                                        className=" text-sm font-medium "
                                         onClick={(e) => {
                                             setId(news._id);
                                             handleShowModal(news._id);
                                         }}
                                     >
-                                        Delete
+                                        <Link>Delete</Link>
                                     </li>
                                 </ul>
                             </div>
                             <div>
-                                <h1 className="m-4 mt-2 font-bold text-lg">
+                                <h1 className="m-4 mt-2 mb-0 font-bold text-lg">
                                     {news.title}
                                 </h1>
+                                <p className="m-4 mt-1 text-xs font-mediums text-gray-400">
+                                    {extractTime(news.createdAt)}
+                                    <span>
+                                        {extractTime(news.createdAt) ==
+                                        extractTime(news.updatedAt)
+                                            ? ""
+                                            : " (Edited)"}
+                                    </span>
+                                </p>
                                 <p className="ml-4 font-bold text-xs italic text-indigo-600">
                                     {news.type}
                                 </p>
@@ -94,10 +106,6 @@ const NewsFeed = () => {
                     </div>
                 );
             })}
-            <button>
-                button
-                <Link to="/newsfeed" />
-            </button>
             <dialog id="my_modal_2" className="modal">
                 <div className="modal-box flex flex-col items-center w-1/5">
                     <h3 className="font-bold text-lg mb-8 mt-4">
