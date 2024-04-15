@@ -15,7 +15,7 @@ const newsFeedSchema = new mongoose.Schema(
             require: true,
         },
         images: {
-            type: String,
+            type: Array,
         },
     },
     {

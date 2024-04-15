@@ -16,20 +16,19 @@ const Upload = () => {
     const [content, setContent] = useState("");
     const [type, setType] = useState("");
     const [images, setImages] = useState([]);
+    const [imgs, setImgs] = useState([]);
     const [video, setVideo] = useState(undefined);
     const [imgPerc, setImgPerc] = useState(0);
     const [videoPerc, setVideoPerc] = useState(0);
-    const [check, setCheck] = useState(false);
 
     const [isDragging, setIsDragging] = useState(false);
     const inputRef = useRef(null);
 
-    // useEffect(() => {
-    //     images.map((img) => {
-    //         img && uploadFile(img, "imgUrl");
-    //         console.log("check: ", check);
-    //     });
-    // }, [check]);
+    const [check, setCheck] = useState(false);
+    useEffect(() => {
+        images && uploadFile(images, "imgUrl");
+        console.log("check: ", check);
+    }, [check]);
 
     const onDragOver = (e) => {
         e.preventDefault();
@@ -49,11 +48,11 @@ const Upload = () => {
                 continue;
             }
             if (
-                !images.some((e) => {
+                !imgs.some((e) => {
                     e.name === files[i].name;
                 })
             ) {
-                setImages((prevImages) => [
+                setImgs((prevImages) => [
                     ...prevImages,
                     {
                         name: files[i].name,
@@ -65,34 +64,30 @@ const Upload = () => {
     };
 
     const onFileSelect = (e) => {
-        // setCheck(!check);
-        // console.log(check);
-        const files = e.target.files;
-        for (let i = 0; i < files.length; i++) {
-            if (files[i].type.split("/")[0] !== "image") {
-                console.log(files[i]);
-                continue;
-            }
-            if (
-                !images.some((e) => {
-                    e.name === files[i].name;
-                })
-            ) {
-                setImages((prevImages) => [
-                    ...prevImages,
-                    {
-                        name: files[i],
-                        url: URL.createObjectURL(files[i]),
-                    },
-                ]);
-            }
-        }
-        console.log(images);
+        setCheck(!check);
+        setImages(e.target.files[0]);
+        console.log(check);
+        // for (let i = 0; i < files.length; i++) {
+        //     if (files[i].type.split("/")[0] !== "image") {
+        //         console.log(files[i]);
+        //         continue;
+        //     }
+        //     if (
+        //         !imgs.some((e) => {
+        //             e.name === files[i].name;
+        //         })
+        //     ) {
+        //         setImgs((prevImages) => [...prevImages, files[i]]);
+        //     }
+        // }
+        // console.log(imgs);
     };
 
     const selectFiles = (e) => {
         inputRef.current.click();
-        console.log(images);
+        console.log("images:", images);
+        console.log("imgs:", imgs);
+        console.log(check);
     };
 
     const uploadFile = (file, fileType) => {
@@ -145,7 +140,11 @@ const Upload = () => {
             () => {
                 // Upload completed successfully, now we can get the download URL
                 getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-                    console.log("DownloadURL - ", downloadURL);
+                    console.log(
+                        "DownloadURL - ",
+                        downloadURL,
+                        typeof downloadURL
+                    );
                     setImages(downloadURL);
                 });
             }
@@ -172,6 +171,7 @@ const Upload = () => {
                 .then((res) => {
                     toast.success("Done");
                     console.log(res);
+                    console.log(imgs);
                 })
                 .catch((err) => {
                     console.log(err);
@@ -284,7 +284,7 @@ const Upload = () => {
                     </div>
                 </div>
                 <div className="w-1/3 bg-slate-50 flex flex-wrap shadow-xl mt-4 rounded-lg">
-                    {/* <div className="bg-gray-500 w-16 h-16 rounded-md m-2 mr-1 relative overflow-hidden">
+                    <div className="bg-gray-500 w-16 h-16 rounded-md m-2 mr-1 relative overflow-hidden">
                         <span
                             className="absolute bg-white rounded-full w-4 h-4 text-center right-0 top-1 right-1 leading-3 cursor-pointer"
                             onClick={() => deleteImage(index)}
@@ -292,8 +292,9 @@ const Upload = () => {
                             &times;
                         </span>
                         <img src={images} alt="" className="w-full h-full" />
-                    </div> */}
-                    {images.map((image, index) => (
+                    </div>
+
+                    {/* {images.map((image, index) => (
                         <div className="bg-gray-500 w-16 h-16 rounded-md m-2 mr-1 relative overflow-hidden">
                             <span
                                 className="absolute bg-white rounded-full w-4 h-4 text-center right-0 top-1 right-1 leading-3 cursor-pointer"
@@ -301,13 +302,9 @@ const Upload = () => {
                             >
                                 &times;
                             </span>
-                            <img
-                                src={image.url}
-                                alt=""
-                                className="w-full h-full"
-                            />
+                            <img src={image} alt="" className="w-full h-full" />
                         </div>
-                    ))}
+                    ))}*/}
                 </div>
                 <button
                     className="btn btn-active btn-primary text-white m-4"

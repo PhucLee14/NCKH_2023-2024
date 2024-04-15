@@ -44,7 +44,7 @@ const NewsFeed = () => {
             {newsFeeds.map((news, index) => {
                 return (
                     <div key={index} className=" flex flex-col items-center">
-                        <div className="w-1/2  bg-white border-gray-300 border rounded-xl mb-4 relative">
+                        <div className="w-1/2 bg-white border-gray-300 border rounded-xl mb-4 relative">
                             <div className="dropdown absolute right-3 top-2 cursor-pointer">
                                 <div
                                     tabIndex={0}
@@ -90,16 +90,16 @@ const NewsFeed = () => {
                                     {news.type}
                                 </p>
                                 <div className="m-4">{news.content}</div>
-                                <div className="flex flex-wrap">
-                                    {/* {news.images.map((image, i) => {
-                                return ( */}
-                                    <img
-                                        src={news.images}
-                                        alt=""
-                                        className="max-w-full w-1/3"
-                                    />
-                                    {/* ); */}
-                                    {/* })} */}
+                                <div className="flex flex-wrap rounded-b-xl overflow-hidden">
+                                    {news.images.map((img, i) => {
+                                        return (
+                                            <img
+                                                src={img}
+                                                alt=""
+                                                className="max-w-full w-1/3"
+                                            />
+                                        );
+                                    })}
                                 </div>
                             </div>
                         </div>

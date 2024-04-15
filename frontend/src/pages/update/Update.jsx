@@ -87,7 +87,7 @@ const Update = () => {
 
     const uploadFile = (file, fileType) => {
         console.log("Vao uploadfile");
-        console.log(check);
+        console.log(file);
         const storage = getStorage(app);
         const folder = fileType === "imgUrl" ? "image/" : "";
         const fileName = new Date().getTime() + file.name;
