@@ -1,6 +1,12 @@
-import * as React from "react";
+import React, { useState } from "react";
+
 import { useTable } from "react-table";
+import NewsFeed from "../../pages/newsfeed/NewsFeed";
 function Table({ dataName }) {
+    const [modal, setModal] = useState(false);
+    const [point, setPoint] = useState(0);
+    const [pos, setPos] = useState(0);
+
     const data = React.useMemo(() => dataName, []);
     const columns = React.useMemo(
         () => [
@@ -22,10 +28,13 @@ function Table({ dataName }) {
 
     const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
         useTable({ columns, data });
-    console.log(data);
 
     return (
-        <div className="mb-10">
+        <div className="mb-10 flex flex-col">
+            <div className="m-6 mb-0 text-sm">
+                {" "}
+                Điểm hiện tại: <span className="font-bold">{point}</span>
+            </div>
             <table
                 {...getTableProps()}
                 className="border-collapse overflow-hidden rounded-xl m-4 bg-white shadow-xl"
@@ -44,6 +53,7 @@ function Table({ dataName }) {
                             <th className="text-left bg-indigo-600 text-white p-4">
                                 Chi tiết
                             </th>
+                            <th className="text-left bg-indigo-600 text-white p-4"></th>
                         </tr>
                     ))}
                 </thead>
@@ -153,15 +163,57 @@ function Table({ dataName }) {
                                     </td>
                                 ))}
                                 <td>
-                                    <button className="text-indigo-600 font-bold hover:underline">
+                                    <button
+                                        className="text-indigo-600 font-bold hover:underline"
+                                        onClick={() =>
+                                            document
+                                                .getElementById("my_modal_2")
+                                                .showModal()
+                                        }
+                                    >
                                         Xem thêm
                                     </button>
+                                </td>
+                                <td>
+                                    <input
+                                        type="checkbox"
+                                        onChange={(e) => {
+                                            const { value, checked } = e.target;
+                                            if (checked) {
+                                                setPoint(
+                                                    point + data[index].point
+                                                );
+                                            } else {
+                                                setPoint(
+                                                    point - data[index].point
+                                                );
+                                            }
+                                        }}
+                                    />
                                 </td>
                             </tr>
                         );
                     })}
                 </tbody>
             </table>
+            {/* <div className="fixed w-full h-full z-50 bg-opacity-30 bg-gray-400 left-0 top-0 flex justify-center items-center">
+                <div className="bg-white w-3/4 h-3/4 rounded-xl">
+                    <h1 className="p-8" onClick={setModal(false)}>
+                        x
+                    </h1>
+                </div>
+            </div> */}
+            <dialog id="my_modal_2" className="modal">
+                <div className="modal-box">
+                    <h3 className="font-bold text-lg">Hello!</h3>
+                    <p className="py-4">
+                        Press ESC key or click outside to close
+                    </p>
+                </div>
+                <form method="dialog" className="modal-backdrop">
+                    <button>close</button>
+                </form>
+            </dialog>
         </div>
     );
 }

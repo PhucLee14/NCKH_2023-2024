@@ -7,7 +7,7 @@ import Upload from "../pages/upload/Upload";
 const publicRoutes = [
     { path: "/", component: Home },
     { path: "/login", component: Login },
-    { path: "upload", component: Upload },
+    { path: "/upload", component: Upload },
     { path: "/newsfeed", component: NewsFeed },
     { path: "/update/:id", component: Update },
 ];

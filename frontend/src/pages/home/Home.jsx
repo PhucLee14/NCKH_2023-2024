@@ -4,15 +4,8 @@ import drlData from "../../assets/DIEM_REN_LUYEN.json";
 
 const Home = () => {
     return (
-        <div className="mt-14">
+        <div className="mt-14 w-5/6">
             <div className="">
-                <input
-                    type="number"
-                    min="0"
-                    max="100"
-                    placeholder="Điểm hiện tại"
-                    className="input w-full max-w-xs border-slate-300 ml-4"
-                />
                 <input
                     type="number"
                     min="0"
@@ -20,7 +13,7 @@ const Home = () => {
                     placeholder="Điểm mong muốn"
                     className="input w-full max-w-xs border-slate-300 ml-4"
                 />
-                <button class="btn btn-active btn-primary text-white ml-4">
+                <button className="btn btn-active btn-primary text-white ml-4">
                     Check
                 </button>
             </div>

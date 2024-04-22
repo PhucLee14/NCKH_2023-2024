@@ -1,32 +1,20 @@
+import axios from "axios";
 import React, { useState } from "react";
 import toast from "react-hot-toast";
 
 const Login = () => {
-    const [Email, setEmail] = useState("");
-    const [Password, setPassword] = useState("");
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
     const handleLogin = async (e) => {
         e.preventDefault();
-        let items = { Email, Password };
         try {
-            let res = await fetch(
+            const res = await axios.post(
                 "http://apiportalstudent7mobile.utc2.edu.vn/api/v1/auth/login",
-                {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify(items),
-                }
+                { Email: email, Password: password }
             );
-            res = await res.json();
-            // console.log(data);
-            // if (data.error) {
-            //     throw new Error(data.error);
-            // }
-            localStorage.setItem("user", JSON.stringify(data));
-        } catch (error) {
-            console.log(error);
-            // toast.error(error.message);
+            console.log(res);
+        } catch (err) {
+            console.log(err.message);
         }
     };
 

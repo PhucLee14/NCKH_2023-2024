@@ -41,46 +41,16 @@ const Upload = () => {
 
     const onDrop = (e) => {
         e.preventDefault();
-        const files = e.dataTransfer.files;
-        for (let i = 0; i < files.length; i++) {
-            if (files[i].type.split("/")[0] !== "image") {
-                console.log(files[i]);
-                continue;
-            }
-            if (
-                !imgs.some((e) => {
-                    e.name === files[i].name;
-                })
-            ) {
-                setImgs((prevImages) => [
-                    ...prevImages,
-                    {
-                        name: files[i].name,
-                        url: URL.createObjectURL(files[i]),
-                    },
-                ]);
-            }
-        }
+        const files = e.dataTransfer.files[0];
+        console.log(files);
+        setCheck(!check);
+        setImages(files);
     };
 
     const onFileSelect = (e) => {
         setCheck(!check);
         setImages(e.target.files[0]);
         console.log(check);
-        // for (let i = 0; i < files.length; i++) {
-        //     if (files[i].type.split("/")[0] !== "image") {
-        //         console.log(files[i]);
-        //         continue;
-        //     }
-        //     if (
-        //         !imgs.some((e) => {
-        //             e.name === files[i].name;
-        //         })
-        //     ) {
-        //         setImgs((prevImages) => [...prevImages, files[i]]);
-        //     }
-        // }
-        // console.log(imgs);
     };
 
     const selectFiles = (e) => {
@@ -284,15 +254,23 @@ const Upload = () => {
                     </div>
                 </div>
                 <div className="w-1/3 bg-slate-50 flex flex-wrap shadow-xl mt-4 rounded-lg">
-                    <div className="bg-gray-500 w-16 h-16 rounded-md m-2 mr-1 relative overflow-hidden">
-                        <span
-                            className="absolute bg-white rounded-full w-4 h-4 text-center right-0 top-1 right-1 leading-3 cursor-pointer"
-                            onClick={() => deleteImage(index)}
-                        >
-                            &times;
-                        </span>
-                        <img src={images} alt="" className="w-full h-full" />
-                    </div>
+                    {images == "" ? (
+                        <div></div>
+                    ) : (
+                        <div className="bg-gray-500 w-16 h-16 rounded-md m-2 mr-1 relative overflow-hidden">
+                            <span
+                                className="absolute bg-white rounded-full w-4 h-4 text-center right-0 top-1 right-1 leading-3 cursor-pointer"
+                                onClick={() => deleteImage(index)}
+                            >
+                                &times;
+                            </span>
+                            <img
+                                src={images}
+                                alt=""
+                                className="w-full h-full"
+                            />
+                        </div>
+                    )}
 
                     {/* {images.map((image, index) => (
                         <div className="bg-gray-500 w-16 h-16 rounded-md m-2 mr-1 relative overflow-hidden">

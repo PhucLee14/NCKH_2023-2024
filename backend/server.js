@@ -1,8 +1,6 @@
 import express from "express";
 import dotenv from "dotenv";
 import cors from "cors";
-import multer from "multer";
-import path from "path";
 
 import newsFeedModel from "./models/newsfeed.model.js";
 import connectToMongoDb from "./db/connectToMongoDB.js";
