@@ -1,21 +1,17 @@
 import axios from "axios";
 import React, { useState } from "react";
 import toast from "react-hot-toast";
+import { Link } from "react-router-dom";
+import useLogin from "../../hooks/useLogin";
 
 const Login = () => {
-    const [email, setEmail] = useState("");
+    const [userName, setUserName] = useState("");
     const [password, setPassword] = useState("");
+
+    const { loading, login } = useLogin();
     const handleLogin = async (e) => {
         e.preventDefault();
-        try {
-            const res = await axios.post(
-                "http://apiportalstudent7mobile.utc2.edu.vn/api/v1/auth/login",
-                { Email: email, Password: password }
-            );
-            console.log(res);
-        } catch (err) {
-            console.log(err.message);
-        }
+        await login(userName, password);
     };
 
     return (
@@ -34,7 +30,7 @@ const Login = () => {
                             placeholder="Nhập mã số sinh viên"
                             className="w-full input input-bordered h-10 mt-2"
                             onChange={(e) => {
-                                setEmail(e.target.value);
+                                setUserName(e.target.value);
                             }}
                         />
                     </div>
@@ -51,6 +47,7 @@ const Login = () => {
                             onChange={(e) => setPassword(e.target.value)}
                         />
                     </div>
+                    <Link to={"/signup"}>Don't have an account?</Link>
                     <div>
                         <button className="btn btn-block bg-indigo-700 btn-sm mt-2 hover:bg-indigo-400 text-white">
                             Submit

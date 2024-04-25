@@ -7,29 +7,34 @@ import NewsFeed from "./pages/newsfeed/NewsFeed";
 import { publicRoutes } from "./routes/Routes";
 import DefaultLayout from "./components/Layouts/DefaultLayout";
 import { Toaster } from "react-hot-toast";
+import { AuthContext, AuthContextProvider } from "./context/AuthContext";
+// import { useAuthContext } from "./context/AuthContext";
 
 function App() {
+    // const { authUser } = useAuthContext();
     return (
         <>
             <BrowserRouter>
-                <Routes>
-                    {publicRoutes.map((route, index) => {
-                        const Layout = route.layout || DefaultLayout;
-                        const Page = route.component;
-                        return (
-                            <Route
-                                key={index}
-                                path={route.path}
-                                element={
-                                    <Layout>
-                                        <Page />
-                                    </Layout>
-                                }
-                            />
-                        );
-                    })}
-                </Routes>
-                <Toaster />
+                <AuthContextProvider>
+                    <Routes>
+                        {publicRoutes.map((route, index) => {
+                            const Layout = route.layout || DefaultLayout;
+                            const Page = route.component;
+                            return (
+                                <Route
+                                    key={index}
+                                    path={route.path}
+                                    element={
+                                        <Layout>
+                                            <Page />
+                                        </Layout>
+                                    }
+                                />
+                            );
+                        })}
+                    </Routes>
+                    <Toaster />
+                </AuthContextProvider>
             </BrowserRouter>
         </>
     );

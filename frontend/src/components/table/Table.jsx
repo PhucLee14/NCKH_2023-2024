@@ -1,11 +1,23 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import { useTable } from "react-table";
 import NewsFeed from "../../pages/newsfeed/NewsFeed";
+import axios from "axios";
+import { extractTime } from "../../utils/extractTime";
 function Table({ dataName }) {
+    const [newsFeeds, setNewsFeeds] = useState([]);
     const [modal, setModal] = useState(false);
     const [point, setPoint] = useState(0);
     const [pos, setPos] = useState(0);
+
+    useEffect(() => {
+        axios
+            .get("http://localhost:5000/newsfeed")
+            .then((res) => setNewsFeeds(res.data))
+            .catch((err) => console.log("loi ben frontend"));
+    }, []);
+
+    console.log(newsFeeds);
 
     const data = React.useMemo(() => dataName, []);
     const columns = React.useMemo(
@@ -165,11 +177,12 @@ function Table({ dataName }) {
                                 <td>
                                     <button
                                         className="text-indigo-600 font-bold hover:underline"
-                                        onClick={() =>
+                                        onClick={() => {
+                                            setPos(index);
                                             document
                                                 .getElementById("my_modal_2")
-                                                .showModal()
-                                        }
+                                                .showModal();
+                                        }}
                                     >
                                         Xem thêm
                                     </button>
@@ -190,30 +203,118 @@ function Table({ dataName }) {
                                             }
                                         }}
                                     />
+                                    <dialog id="my_modal_2" className="modal">
+                                        <div className="modal-box max-w-full w-1/2">
+                                            <p className="py-4">
+                                                {/* {
+                                                    data[pos].content.split(
+                                                        "\n"
+                                                    )[
+                                                        data[pos].content.split(
+                                                            "\n"
+                                                        ).length - 1
+                                                    ]
+                                                } */}
+                                                {newsFeeds
+                                                    .reverse()
+                                                    .map((news, index) => {
+                                                        return news.type ===
+                                                            data[
+                                                                pos
+                                                            ].content.split(
+                                                                "\n"
+                                                            )[
+                                                                data[
+                                                                    pos
+                                                                ].content.split(
+                                                                    "\n"
+                                                                ).length - 1
+                                                            ] ? (
+                                                            <div
+                                                                key={index}
+                                                                className=" flex flex-col items-center"
+                                                            >
+                                                                <div className="w-full  bg-white border-gray-300 border rounded-xl mb-4 relative">
+                                                                    <div className="dropdown absolute right-3 top-2 cursor-pointer">
+                                                                        <div
+                                                                            tabIndex={
+                                                                                0
+                                                                            }
+                                                                            role="button"
+                                                                            className="btn p-1 min-h-0 h-auto bg-white border-none shadow-none"
+                                                                        ></div>
+                                                                    </div>
+                                                                    <div>
+                                                                        <h1 className="m-4 mt-2 mb-0 font-bold text-lg">
+                                                                            {
+                                                                                news.title
+                                                                            }
+                                                                        </h1>
+                                                                        <p className="m-4 mt-1 text-xs font-mediums text-gray-400">
+                                                                            {extractTime(
+                                                                                news.createdAt
+                                                                            )}
+                                                                            <span>
+                                                                                {extractTime(
+                                                                                    news.createdAt
+                                                                                ) ==
+                                                                                extractTime(
+                                                                                    news.updatedAt
+                                                                                )
+                                                                                    ? ""
+                                                                                    : " (Edited)"}
+                                                                            </span>
+                                                                        </p>
+                                                                        <p className="ml-4 font-bold text-xs italic text-indigo-600">
+                                                                            {
+                                                                                news.type
+                                                                            }
+                                                                        </p>
+                                                                        <div className="m-4">
+                                                                            {
+                                                                                news.content
+                                                                            }
+                                                                        </div>
+                                                                        <div className="flex flex-wrap rounded-b-xl overflow-hidden">
+                                                                            {news.images.map(
+                                                                                (
+                                                                                    img,
+                                                                                    i
+                                                                                ) => {
+                                                                                    return (
+                                                                                        <img
+                                                                                            src={
+                                                                                                img
+                                                                                            }
+                                                                                            alt=""
+                                                                                            className="max-w-full w-full"
+                                                                                        />
+                                                                                    );
+                                                                                }
+                                                                            )}
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        ) : (
+                                                            ""
+                                                        );
+                                                    })}
+                                            </p>
+                                        </div>
+                                        <form
+                                            method="dialog"
+                                            className="modal-backdrop"
+                                        >
+                                            <button>close</button>
+                                        </form>
+                                    </dialog>
                                 </td>
                             </tr>
                         );
                     })}
                 </tbody>
             </table>
-            {/* <div className="fixed w-full h-full z-50 bg-opacity-30 bg-gray-400 left-0 top-0 flex justify-center items-center">
-                <div className="bg-white w-3/4 h-3/4 rounded-xl">
-                    <h1 className="p-8" onClick={setModal(false)}>
-                        x
-                    </h1>
-                </div>
-            </div> */}
-            <dialog id="my_modal_2" className="modal">
-                <div className="modal-box">
-                    <h3 className="font-bold text-lg">Hello!</h3>
-                    <p className="py-4">
-                        Press ESC key or click outside to close
-                    </p>
-                </div>
-                <form method="dialog" className="modal-backdrop">
-                    <button>close</button>
-                </form>
-            </dialog>
         </div>
     );
 }
