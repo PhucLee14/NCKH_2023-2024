@@ -2,6 +2,7 @@
 import Home from "../pages/home/Home";
 import Login from "../pages/login/Login";
 import NewsFeed from "../pages/newsfeed/NewsFeed";
+import NewsDetail from "../pages/newsfeed/NewsDetail";
 import Profile from "../pages/profile/Profile";
 import Signup from "../pages/signup/Signup";
 import Update from "../pages/update/Update";
@@ -15,6 +16,7 @@ const publicRoutes = [
     { path: "/upload", component: Upload },
     { path: "/profile/:id", component: Profile },
     { path: "/newsfeed", component: NewsFeed },
+    { path: "/newsfeed/:id", component: NewsDetail },
     { path: "/update/:id", component: Update },
 ];
 

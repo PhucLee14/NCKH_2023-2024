@@ -2,6 +2,11 @@ import mongoose from "mongoose";
 
 const newsFeedSchema = new mongoose.Schema(
     {
+        author: {
+            type: String,
+            require: true,
+            ref: "User",
+        },
         type: {
             type: String,
             require: true,
@@ -17,6 +22,12 @@ const newsFeedSchema = new mongoose.Schema(
         images: {
             type: Array,
         },
+        comments: [
+            {
+                type: String,
+                ref: "Comment",
+            },
+        ],
     },
     {
         timestamps: true,

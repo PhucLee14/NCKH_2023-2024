@@ -7,6 +7,7 @@ const Header = () => {
     var localStorageData = localStorage.getItem("user");
     const [fullName, setFullName] = useState("");
     const [avt, setAvt] = useState("");
+    const [id, setId] = useState("");
     const [check, setCheck] = useState(false);
 
     // Kiểm tra xem dữ liệu có tồn tại không
@@ -19,6 +20,7 @@ const Header = () => {
         useEffect(() => {
             setFullName(userData.fullName);
             setAvt(userData.profilePic);
+            setId(userData._id);
             setCheck(true);
         }, []);
 
@@ -27,7 +29,6 @@ const Header = () => {
     } else {
         console.log("Không tìm thấy dữ liệu trong local storage");
     }
-
     return (
         <div className="flex items-center justify-center h-12 bg-white z-40 fixed left-0 right-0 border-b-slate-300 border">
             <div className="flex justify-center">
@@ -56,10 +57,10 @@ const Header = () => {
                         </div>
                         <ul
                             tabIndex={0}
-                            className="absolute right-0 top-10 mt-1 dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box min-w-48"
+                            className="absolute right-0 top-12 mt-1 dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box min-w-48"
                         >
                             <li className="text-sm font-medium">
-                                <Link to={`/update/ `}>Trang cá nhân</Link>
+                                <Link to={`/profile/${id}`}>Trang cá nhân</Link>
                             </li>
                             <li className=" text-sm font-medium ">
                                 <LogoutButton />

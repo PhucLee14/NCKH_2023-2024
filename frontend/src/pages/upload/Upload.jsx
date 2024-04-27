@@ -12,6 +12,7 @@ import {
 } from "firebase/storage";
 
 const Upload = () => {
+    const [author, setAuthor] = useState("");
     const [title, setTitle] = useState("");
     const [content, setContent] = useState("");
     const [type, setType] = useState("");
@@ -25,10 +26,20 @@ const Upload = () => {
     const inputRef = useRef(null);
 
     const [check, setCheck] = useState(false);
+    var localStorageData = localStorage.getItem("user");
     useEffect(() => {
         images && uploadFile(images, "imgUrl");
         console.log("check: ", check);
     }, [check]);
+
+    if (localStorageData) {
+        var userData = JSON.parse(localStorageData);
+        useEffect(() => {
+            setAuthor(userData._id);
+        }, []);
+    } else {
+        console.log("Không tìm thấy dữ liệu trong local storage");
+    }
 
     const onDragOver = (e) => {
         e.preventDefault();
@@ -133,6 +144,7 @@ const Upload = () => {
         } else {
             axios
                 .post("http://localhost:5000/upload", {
+                    author,
                     title,
                     content,
                     type,

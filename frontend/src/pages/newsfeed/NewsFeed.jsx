@@ -14,6 +14,10 @@ const NewsFeed = () => {
     const [checkValues, setCheckValues] = useState("");
     const [displayDropdown, setDisplayDropdown] = useState(false);
     const formattedTime = extractTime(newsFeeds.createdAt);
+    var localStorageData = localStorage.getItem("user");
+    if (localStorageData) {
+        var userData = JSON.parse(localStorageData);
+    }
 
     const typeList = [
         "Đánh giá về ý thức tham gia học tập",
@@ -27,8 +31,9 @@ const NewsFeed = () => {
         axios
             .get("http://localhost:5000/newsfeed")
             .then((res) => setNewsFeeds(res.data))
-            .catch((err) => console.log("loi ben frontend"));
+            .catch((err) => console.log(err));
     }, []);
+    console.log(newsFeeds);
 
     const handleShowModal = (id) => {
         document.getElementById("my_modal_2").showModal();
@@ -144,14 +149,21 @@ const NewsFeed = () => {
                             key={index}
                             className=" flex flex-col items-center"
                         >
-                            <div className="w-1/2 bg-white border-gray-300 border rounded-xl mb-4 relative">
+                            <Link
+                                to={`/newsfeed/${news._id}`}
+                                className="w-1/2 bg-white border-gray-300 border rounded-xl mb-4 relative cursor-pointer"
+                            >
                                 <div className="dropdown absolute right-3 top-2 cursor-pointer">
                                     <div
                                         tabIndex={0}
                                         role="button"
                                         className="btn p-1 min-h-0 h-auto bg-white border-none shadow-none"
                                     >
-                                        <BsThreeDots />
+                                        {userData._id == news.author._id ? (
+                                            <BsThreeDots />
+                                        ) : (
+                                            ""
+                                        )}
                                     </div>
                                     <ul
                                         tabIndex={0}
@@ -174,18 +186,32 @@ const NewsFeed = () => {
                                     </ul>
                                 </div>
                                 <div>
+                                    <div className="flex m-4">
+                                        <img
+                                            src={news.author.profilePic}
+                                            alt=""
+                                            className="w-12 h-12 mr-2"
+                                        />
+                                        <div className="flex flex-col ">
+                                            <p className="font-bold">
+                                                {news.author.fullName}
+                                            </p>
+                                            <p className=" mt-1 text-xs font-mediums text-gray-400">
+                                                {extractTime(news.createdAt)}
+                                                <span>
+                                                    {extractTime(
+                                                        news.createdAt
+                                                    ) ==
+                                                    extractTime(news.updatedAt)
+                                                        ? ""
+                                                        : " (Edited)"}
+                                                </span>
+                                            </p>
+                                        </div>
+                                    </div>
                                     <h1 className="m-4 mt-2 mb-0 font-bold text-lg">
                                         {news.title}
                                     </h1>
-                                    <p className="m-4 mt-1 text-xs font-mediums text-gray-400">
-                                        {extractTime(news.createdAt)}
-                                        <span>
-                                            {extractTime(news.createdAt) ==
-                                            extractTime(news.updatedAt)
-                                                ? ""
-                                                : " (Edited)"}
-                                        </span>
-                                    </p>
                                     <p className="ml-4 font-bold text-xs italic text-indigo-600">
                                         {news.type}
                                     </p>
@@ -201,8 +227,9 @@ const NewsFeed = () => {
                                             );
                                         })}
                                     </div>
+                                    <div></div>
                                 </div>
-                            </div>
+                            </Link>
                         </div>
                     );
                 })}

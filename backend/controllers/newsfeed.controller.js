@@ -1,16 +1,19 @@
 import newsFeedModel from "../models/newsfeed.model.js";
 
-export const getAllNewsFeed = (req, res) => {
-    newsFeedModel
+export const getAllNewsFeed = async (req, res) => {
+    await newsFeedModel
         .find({})
+        .populate("author")
         .then((newsfeed) => res.json(newsfeed))
         .catch((err) => res.json("Error on the backend"));
 };
 
 export const getNewsFeedById = async (req, res) => {
     const id = req.params.id;
-    newsFeedModel
+    await newsFeedModel
         .findById({ _id: id })
+        .populate("author")
+        .populate("comments")
         .then((newsfeed) => res.json(newsfeed))
         .catch((err) => res.json(err));
 };

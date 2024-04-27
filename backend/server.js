@@ -5,6 +5,8 @@ import cors from "cors";
 import newsFeedModel from "./models/newsfeed.model.js";
 import connectToMongoDb from "./db/connectToMongoDB.js";
 import authRoutes from "./routes/auth.routes.js";
+import commentRoutes from "./routes/comment.routes.js";
+import newsfeed from "./routes/newsfeed.routes.js";
 
 const app = express();
 app.use(cors());
@@ -18,58 +20,8 @@ app.get("/", (req, res) => {
 });
 
 app.use("/api/auth", authRoutes);
-
-app.get("/newsfeed", (req, res) => {
-    newsFeedModel
-        .find({})
-        .then((newsfeed) => res.json(newsfeed))
-        .catch((err) => res.json("loi ben backend"));
-});
-
-app.get("/upload", (req, res) => {
-    res.send("upload");
-});
-
-app.get("/getNews/:id", (req, res) => {
-    const id = req.params.id;
-    newsFeedModel
-        .findById({ _id: id })
-        .then((newsfeed) => res.json(newsfeed))
-        .catch((err) => res.json(err));
-});
-
-app.put("/update/:id", (req, res) => {
-    const id = req.params.id;
-    newsFeedModel
-        .findByIdAndUpdate(
-            { _id: id },
-            {
-                type: req.body.type,
-                title: req.body.title,
-                content: req.body.content,
-                images: req.body.images,
-            }
-        )
-        .then((newsfeed) => res.json(newsfeed))
-        .catch((err) => res.json(err));
-});
-
-app.post("/upload", (req, res) => {
-    newsFeedModel
-        .create(req.body)
-        .then((newsfeed) => res.json(newsfeed))
-        .catch((err) => res.json(err));
-});
-
-app.delete("/delete/:id", (req, res) => {
-    const id = req.params.id;
-    newsFeedModel
-        .findByIdAndDelete({
-            _id: id,
-        })
-        .then((res) => res.json(res))
-        .catch((err) => res.json(err));
-});
+app.use("/comments", commentRoutes);
+app.use("/", newsfeed);
 
 app.listen(5000, () => {
     connectToMongoDb();
