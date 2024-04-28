@@ -62,7 +62,7 @@ function Table({ dataName }) {
                                     {column.render("Header")}
                                 </th>
                             ))}
-                            <th className="text-left bg-indigo-600 text-white p-4">
+                            <th className="text-left bg-indigo-600 text-white p-4 w-24 text-center">
                                 Chi tiết
                             </th>
                             <th className="text-left bg-indigo-600 text-white p-4"></th>
@@ -174,7 +174,7 @@ function Table({ dataName }) {
                                         {}
                                     </td>
                                 ))}
-                                <td>
+                                <td className=" text-center">
                                     <button
                                         className="text-indigo-600 font-bold hover:underline"
                                         onClick={() => {
@@ -218,6 +218,7 @@ function Table({ dataName }) {
                                                 {newsFeeds
                                                     .reverse()
                                                     .map((news, index) => {
+                                                        console.log(news.type);
                                                         return news.type ===
                                                             data[
                                                                 pos
@@ -235,15 +236,6 @@ function Table({ dataName }) {
                                                                 className=" flex flex-col items-center"
                                                             >
                                                                 <div className="w-full  bg-white border-gray-300 border rounded-xl mb-4 relative">
-                                                                    <div className="dropdown absolute right-3 top-2 cursor-pointer">
-                                                                        <div
-                                                                            tabIndex={
-                                                                                0
-                                                                            }
-                                                                            role="button"
-                                                                            className="btn p-1 min-h-0 h-auto bg-white border-none shadow-none"
-                                                                        ></div>
-                                                                    </div>
                                                                     <div>
                                                                         <h1 className="m-4 mt-2 mb-0 font-bold text-lg">
                                                                             {

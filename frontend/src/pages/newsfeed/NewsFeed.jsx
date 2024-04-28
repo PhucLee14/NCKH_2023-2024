@@ -1,8 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
-import { BsThreeDots } from "react-icons/bs";
-import { FaRegQuestionCircle } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { extractTime } from "../../utils/extractTime";
 
@@ -106,10 +104,10 @@ const NewsFeed = () => {
                                         <span className="label-text">
                                             Hoạt động loại {index + 1}
                                         </span>
-                                        <FaRegQuestionCircle
-                                            className="font-thin ml-2 cursor-default"
+                                        <i
+                                            class="fa-regular fa-circle-question font-bold ml-2 cursor-default"
                                             title={type}
-                                        />
+                                        ></i>
                                     </div>
                                     <input
                                         type="radio"
@@ -158,9 +156,14 @@ const NewsFeed = () => {
                                         tabIndex={0}
                                         role="button"
                                         className="btn p-1 min-h-0 h-auto bg-white border-none shadow-none"
+                                        onClick={(e) => e.preventDefault()}
                                     >
-                                        {userData._id == news.author._id ? (
-                                            <BsThreeDots />
+                                        {userData ? (
+                                            userData._id == news.author._id ? (
+                                                <i class="fa-solid fa-ellipsis"></i>
+                                            ) : (
+                                                ""
+                                            )
                                         ) : (
                                             ""
                                         )}

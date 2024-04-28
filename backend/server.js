@@ -6,6 +6,7 @@ import newsFeedModel from "./models/newsfeed.model.js";
 import connectToMongoDb from "./db/connectToMongoDB.js";
 import authRoutes from "./routes/auth.routes.js";
 import commentRoutes from "./routes/comment.routes.js";
+import certificateRoutes from "./routes/certification.routes.js";
 import newsfeed from "./routes/newsfeed.routes.js";
 
 const app = express();
@@ -21,6 +22,7 @@ app.get("/", (req, res) => {
 
 app.use("/api/auth", authRoutes);
 app.use("/comments", commentRoutes);
+app.use("/certificate", certificateRoutes);
 app.use("/", newsfeed);
 
 app.listen(5000, () => {

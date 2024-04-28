@@ -2,15 +2,16 @@ import mongoose from "mongoose";
 
 const certificationSchema = new mongoose.Schema(
     {
-        senderId: {
+        authorId: {
+            type: String,
+            required: true,
+            ref: "User",
+        },
+        type: {
             type: String,
             required: true,
         },
-        newsId: {
-            type: String,
-            required: true,
-        },
-        image: [
+        images: [
             {
                 type: String,
             },
@@ -20,6 +21,9 @@ const certificationSchema = new mongoose.Schema(
                 type: String,
             },
         ],
+        note: {
+            type: String,
+        },
     },
     {
         timestamps: true,
