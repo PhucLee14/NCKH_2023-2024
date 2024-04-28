@@ -1,10 +1,11 @@
 import certificationModel from "../models/certification.model.js";
 export const createCertificate = async (req, res) => {
     try {
-        const { authorId, type, images, files, note } = req.body;
+        const { authorId, title, type, images, files, note } = req.body;
 
         const newCertificate = new certificationModel({
             authorId,
+            title,
             type,
             images,
             files,
@@ -13,23 +14,31 @@ export const createCertificate = async (req, res) => {
 
         const savedCertificate = await newCertificate.save();
 
-        res.status(201).json(savedCertificate); // Trả về comment mới được tạo
+        res.status(201).json(savedCertificate);
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
 };
 
-// Controller để lấy danh sách comment của một bài viết
 export const getCertificate = async (req, res) => {
     try {
-        const { certificateId } = req.params;
+        const { id } = req.params;
 
         const certificate = await certificationModel
-            .find({ certificateId })
+            .find({ authorId: id })
             .populate("authorId");
 
-        res.status(200).json(certificate); // Trả về danh sách các comment
+        res.json(certificate);
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
+};
+export const deleteCertificate = async (req, res) => {
+    const id = req.params.id;
+    certificationModel
+        .findByIdAndDelete({
+            _id: id,
+        })
+        .then((res) => res.json(res))
+        .catch((err) => res.json(err));
 };

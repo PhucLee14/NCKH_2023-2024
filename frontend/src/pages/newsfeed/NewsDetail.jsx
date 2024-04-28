@@ -73,8 +73,8 @@ const NewsDetail = () => {
                 </div>
             </div>
             <div className="w-1/4 bg-white flex flex-col justify-between rounded-r-2xl overflow-hidden">
-                <div className="w-full h-full overflow-y-scroll">
-                    <div className="flex p-4 mb-4 border-b">
+                <div className="flex flex-col w-full h-[93%]">
+                    <div className="flex p-4 border-b">
                         {newsFeed.author?.profilePic && (
                             <img
                                 src={newsFeed.author.profilePic}
@@ -93,41 +93,39 @@ const NewsDetail = () => {
                             </p>
                         </div>
                     </div>
-                    {comments.length !== 0 ? (
-                        comments.reverse().map((comment) => {
-                            return (
-                                <div className="flex mb-8 mx-4">
-                                    <img
-                                        src={comment.senderId.profilePic}
-                                        alt=""
-                                        className="w-10 h-10 mr-4"
-                                    />
-                                    <div>
-                                        <span className="font-bold mr-2">
-                                            {comment.senderId.fullName}
-                                        </span>
-                                        <span className="text-sm">
-                                            {comment.content}
-                                        </span>
-                                        <p className=" mt-1 text-xs font-mediums text-gray-400">
-                                            {extractTime(comment.createdAt)}
-                                            {/* <span>
-                                        {extractTime(newsFeed.createdAt) ==
-                                        extractTime(newsFeed.updatedAt)
-                                            ? ""
-                                            : " (Edited)"}
-                                    </span> */}
-                                        </p>
+                    <div className=" overflow-y-scroll">
+                        {comments.length !== 0 ? (
+                            comments.reverse().map((comment) => {
+                                return (
+                                    <div className="flex mt-2 mb-6 mx-4">
+                                        <img
+                                            src={comment.senderId.profilePic}
+                                            alt=""
+                                            className="w-10 h-10 mr-4"
+                                        />
+                                        <div>
+                                            <span className="font-bold mr-2">
+                                                {comment.senderId.fullName}
+                                            </span>
+                                            <span className="text-sm">
+                                                {comment.content}
+                                            </span>
+                                            <p className=" mt-1 text-xs font-mediums text-gray-400">
+                                                {extractTime(comment.createdAt)}
+                                            </p>
+                                        </div>
                                     </div>
-                                </div>
-                            );
-                        })
-                    ) : (
-                        <div className="flex flex-col justify-center items-center h-5/6">
-                            <i class="fa-solid fa-message-lines text-[80px]"></i>
-                            <p className="text-2xl mt-4">Không có bình luận</p>
-                        </div>
-                    )}
+                                );
+                            })
+                        ) : (
+                            <div className="flex flex-col justify-center items-center h-5/6">
+                                <i class="fa-solid fa-message-lines text-[80px]"></i>
+                                <p className="text-2xl mt-4">
+                                    Không có bình luận
+                                </p>
+                            </div>
+                        )}
+                    </div>
                 </div>
                 <form action="" onSubmit={handleComment}>
                     {userData ? (

@@ -7,6 +7,10 @@ const certificationSchema = new mongoose.Schema(
             required: true,
             ref: "User",
         },
+        title: {
+            type: String,
+            required: true,
+        },
         type: {
             type: String,
             required: true,

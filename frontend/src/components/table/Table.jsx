@@ -43,9 +43,11 @@ function Table({ dataName }) {
 
     return (
         <div className="mb-10 flex flex-col">
-            <div className="m-6 mb-0 text-sm">
-                {" "}
-                Điểm hiện tại: <span className="font-bold">{point}</span>
+            <div className="m-6 mb-0 text-sm flex justify-between">
+                <div>
+                    {" "}
+                    Điểm hiện tại: <span className="font-bold">{point}</span>
+                </div>
             </div>
             <table
                 {...getTableProps()}

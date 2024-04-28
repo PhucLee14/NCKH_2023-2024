@@ -18,6 +18,22 @@ export const getNewsFeedById = async (req, res) => {
         .catch((err) => res.json(err));
 };
 
+export const getNewsFeedByAuthorId = async (req, res) => {
+    try {
+        const { id } = req.params;
+
+        const newsfeeds = await newsFeedModel
+            .find({ author: id })
+            .populate("author")
+            .populate("comments");
+
+        res.json(newsfeeds);
+    } catch (error) {
+        console.error("Error fetching news feeds:", error);
+        res.status(500).json({ message: "Error fetching news feeds" });
+    }
+};
+
 export const updateNewsFeedById = async (req, res) => {
     const id = req.params.id;
     try {

@@ -8,9 +8,7 @@ const NewsFeed = () => {
     const [newsFeeds, setNewsFeeds] = useState([]);
     const [id, setId] = useState("");
     const [search, setSearch] = useState("");
-    const [temp, setTemp] = useState("");
     const [checkValues, setCheckValues] = useState("");
-    const [displayDropdown, setDisplayDropdown] = useState(false);
     const formattedTime = extractTime(newsFeeds.createdAt);
     var localStorageData = localStorage.getItem("user");
     if (localStorageData) {
@@ -30,7 +28,7 @@ const NewsFeed = () => {
             .get("http://localhost:5000/newsfeed")
             .then((res) => setNewsFeeds(res.data))
             .catch((err) => console.log(err));
-    }, []);
+    }, [newsFeeds]);
     console.log(newsFeeds);
 
     const handleShowModal = (id) => {
@@ -45,7 +43,7 @@ const NewsFeed = () => {
             .then((res) => {
                 document.getElementById("my_modal_2").style.display = "none";
                 toast.success("Delete success!");
-                window.location.reload();
+                // window.location.reload();
             })
             .then((err) => {
                 console.log(err);
