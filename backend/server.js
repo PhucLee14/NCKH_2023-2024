@@ -5,8 +5,10 @@ import cors from "cors";
 import newsFeedModel from "./models/newsfeed.model.js";
 import connectToMongoDb from "./db/connectToMongoDB.js";
 import authRoutes from "./routes/auth.routes.js";
+import userRoutes from "./routes/user.routes.js";
 import commentRoutes from "./routes/comment.routes.js";
 import certificateRoutes from "./routes/certification.routes.js";
+import activityRoutes from "./routes/activity.routes.js";
 import newsfeed from "./routes/newsfeed.routes.js";
 
 const app = express();
@@ -21,8 +23,10 @@ app.get("/", (req, res) => {
 });
 
 app.use("/api/auth", authRoutes);
+app.use("/user", userRoutes);
 app.use("/comments", commentRoutes);
 app.use("/certificate", certificateRoutes);
+app.use("/activity", activityRoutes);
 app.use("/", newsfeed);
 
 app.listen(5000, () => {

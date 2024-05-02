@@ -53,6 +53,22 @@ export const updateNewsFeedById = async (req, res) => {
     }
 };
 
+export const updateNewsStatusById = async (req, res) => {
+    const id = req.params.id;
+    try {
+        const newsfeed = await newsFeedModel.findByIdAndUpdate(
+            id,
+            {
+                status: req.body.status,
+            },
+            { new: true }
+        );
+        res.json(newsfeed);
+    } catch (err) {
+        res.status(500).json(err);
+    }
+};
+
 export const uploadNewsFeed = async (req, res) => {
     try {
         const newsfeed = await newsFeedModel.create(req.body);

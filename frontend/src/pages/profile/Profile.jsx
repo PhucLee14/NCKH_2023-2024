@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { extractTime } from "../../utils/extractTime";
+import { Link } from "react-router-dom";
 
 const Profile = () => {
     var localStorageData = localStorage.getItem("user");
@@ -11,6 +12,7 @@ const Profile = () => {
     const [avt, setAvt] = useState("");
     const [isCertificate, setIsCertificate] = useState(true);
     const [id, setId] = useState("");
+    const [checkValue, setCheckValue] = useState("pending");
     const [check, setCheck] = useState(false);
     if (localStorageData) {
         // Parse JSON thành đối tượng JavaScript
@@ -53,6 +55,12 @@ const Profile = () => {
                 console.log(err);
             });
     };
+
+    const handleFilter = (e) => {
+        setCheckValue(e.target.value);
+    };
+    const filteredArr = newsfeeds.filter((item) => item.status === checkValue);
+
     return (
         <div className="mt-12 bg-white w-1/2 ">
             <div className="flex m-4 pb-4 border-b">
@@ -113,26 +121,78 @@ const Profile = () => {
                     </>
                 )}
             </div>
-            <div className="flex items-center flex-col h-1/2">
+            <div className="flex flex-col h-1/2">
+                <select
+                    name=""
+                    id=""
+                    className="m-4 border w-32 p-2 rounded-lg focus:outline-none"
+                    value={checkValue}
+                    onChange={handleFilter}
+                >
+                    <option value="pending">Chưa duyệt</option>
+                    <option value="approve">Đã duyệt</option>
+                    <option value="reject">Đã từ chối</option>
+                </select>
                 {isCertificate ? (
                     certificates.length != 0 ? (
-                        certificates.map((certificate) => {
+                        certificates.map((certificate, index) => {
                             return (
-                                <div className=" flex justify-between w-full p-4 border-b ">
-                                    <p className="font-bold">
+                                <div className=" flex justify-between items-center w-full border-b ">
+                                    <p
+                                        className="font-bold p-4 pr-96 cursor-pointer    "
+                                        onClick={(e) => {
+                                            document
+                                                .getElementById(
+                                                    `certificate_modal_${index}`
+                                                )
+                                                .showModal();
+                                        }}
+                                    >
                                         {certificate.title}
                                     </p>
                                     <div>
-                                        <i class="fa-solid fa-pen mr-8 cursor-pointer"></i>
+                                        <i class="fa-solid fa-pen mr-8 cursor-pointer p-4"></i>
                                         <i
-                                            class="fa-solid fa-circle-xmark cursor-pointer"
+                                            class="fa-solid fa-circle-xmark cursor-pointer p-4"
                                             onClick={(e) => {
                                                 handleDeleteCertificate(
                                                     certificate._id
                                                 );
                                             }}
                                         ></i>
+                                        {/* Open the modal using document.getElementById('ID').showModal() method */}
                                     </div>
+                                    <dialog
+                                        id={`certificate_modal_${index}`}
+                                        className="modal"
+                                    >
+                                        <div className="modal-box">
+                                            <h3 className="font-bold text-lg">
+                                                {certificate.title}
+                                                <span className="ml-1 text-xs font-extralight italic text-slate-400">
+                                                    {"("}
+                                                    {certificate.status}
+                                                    {")"}
+                                                </span>
+                                            </h3>
+                                            <p className="py-2 text-blue-600 font-bold text-sm">
+                                                {certificate.type}
+                                            </p>
+                                            <p className="py-4">
+                                                {certificate.note}
+                                            </p>
+                                            <img
+                                                src={certificate.images}
+                                                alt=""
+                                            />
+                                        </div>
+                                        <form
+                                            method="dialog"
+                                            className="modal-backdrop"
+                                        >
+                                            <button>close</button>
+                                        </form>
+                                    </dialog>
                                 </div>
                             );
                         })
@@ -143,9 +203,13 @@ const Profile = () => {
                         </div>
                     )
                 ) : newsfeeds.length != 0 ? (
-                    newsfeeds.map((newsfeed) => {
+                    filteredArr.map((newsfeed) => {
+                        console.log(newsfeeds);
                         return (
-                            <div className=" flex justify-between w-full p-4 border-b items-center">
+                            <Link
+                                to={`http://localhost:5173/newsfeed/${newsfeed._id}`}
+                                className=" flex justify-between w-full p-4 border-b items-center"
+                            >
                                 <div>
                                     <p className="font-bold">
                                         {newsfeed.title}
@@ -155,10 +219,15 @@ const Profile = () => {
                                     </p>
                                 </div>
                                 <div>
-                                    <i class="fa-solid fa-pen mr-8 cursor-pointer"></i>
-                                    <i class="fa-solid fa-circle-xmark cursor-pointer"></i>
+                                    {newsfeed.status === "approve" ? (
+                                        <i class="fa-solid fa-circle-check text-green-600"></i>
+                                    ) : newsfeed.status === "pending" ? (
+                                        <i class="fa-solid fa-circle-minus text-slate-500"></i>
+                                    ) : (
+                                        <i class="fa-solid fa-circle-xmark text-red-600"></i>
+                                    )}
                                 </div>
-                            </div>
+                            </Link>
                         );
                     })
                 ) : (

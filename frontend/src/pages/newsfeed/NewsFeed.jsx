@@ -29,7 +29,6 @@ const NewsFeed = () => {
             .then((res) => setNewsFeeds(res.data))
             .catch((err) => console.log(err));
     }, [newsFeeds]);
-    console.log(newsFeeds);
 
     const handleShowModal = (id) => {
         document.getElementById("my_modal_2").showModal();
@@ -58,14 +57,25 @@ const NewsFeed = () => {
             setCheckValues("");
         }
     };
-    console.log("checkValues:", checkValues);
-    console.log("search:", search);
 
     return (
         <div className="mt-16 w-5/6">
             <div className="fixed">
+                {userData.isAdmin ? (
+                    <div className=" mb-8 mt-4">
+                        <Link
+                            to={"/newsfeed/pending"}
+                            className="p-2 px-4 bg-indigo-600 text-white rounded-xl"
+                        >
+                            Bài viết chờ duyệt
+                        </Link>
+                    </div>
+                ) : (
+                    ""
+                )}
+
                 <div>
-                    <p className="font-bold">Tìm kiếm theo nội dung</p>
+                    <p className="font-bold mb-2">Tìm kiếm theo nội dung</p>
                     <input
                         type="text"
                         placeholder="Type here"
@@ -140,7 +150,7 @@ const NewsFeed = () => {
                     );
                 })
                 .map((news, index) => {
-                    return (
+                    return news.status == "approve" && news.author ? (
                         <div
                             key={index}
                             className=" flex flex-col items-center"
@@ -150,22 +160,26 @@ const NewsFeed = () => {
                                 className="w-1/2 bg-white border-gray-300 border rounded-xl mb-4 relative cursor-pointer"
                             >
                                 <div className="dropdown absolute right-3 top-2 cursor-pointer">
-                                    <div
-                                        tabIndex={0}
-                                        role="button"
-                                        className="btn p-1 min-h-0 h-auto bg-white border-none shadow-none"
-                                        onClick={(e) => e.preventDefault()}
-                                    >
-                                        {userData ? (
-                                            userData._id == news.author._id ? (
+                                    {userData ? (
+                                        userData._id == news.author._id ||
+                                        userData.isAdmin ? (
+                                            <div
+                                                tabIndex={0}
+                                                role="button"
+                                                className="btn p-1 min-h-0 h-auto bg-white border-none shadow-none"
+                                                onClick={(e) =>
+                                                    e.preventDefault()
+                                                }
+                                            >
                                                 <i class="fa-solid fa-ellipsis"></i>
-                                            ) : (
-                                                ""
-                                            )
+                                            </div>
                                         ) : (
-                                            ""
-                                        )}
-                                    </div>
+                                            <div className="hidden"></div>
+                                        )
+                                    ) : (
+                                        ""
+                                    )}
+
                                     <ul
                                         tabIndex={0}
                                         className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52"
@@ -217,36 +231,42 @@ const NewsFeed = () => {
                                         {news.type}
                                     </p>
                                     <div className="m-4">{news.content}</div>
-                                    <div className="flex flex-wrap rounded-b-xl overflow-hidden">
-                                        {news.images.map((img, i) => {
-                                            return (
-                                                <img
-                                                    src={img}
-                                                    alt=""
-                                                    className="max-w-full w-full"
-                                                />
-                                            );
-                                        })}
+                                    <div>
+                                        <div className="flex flex-wrap rounded-b-xl overflow-hidden">
+                                            {news.images.map((img, i) => {
+                                                return (
+                                                    <img
+                                                        src={img}
+                                                        alt=""
+                                                        className="max-w-full w-full"
+                                                    />
+                                                );
+                                            })}
+                                        </div>
                                     </div>
                                     <div></div>
                                 </div>
                             </Link>
                         </div>
+                    ) : (
+                        ""
                     );
                 })}
             <dialog id="my_modal_2" className="modal">
-                <div className="modal-box flex flex-col items-center w-1/5">
-                    <h3 className="font-bold text-lg mb-8 mt-4">
-                        Delete this field?
+                <div className="modal-box flex flex-col items-center w-1/5 p-2 pt-4">
+                    <h3 className="font-bold text-lg mb-8">
+                        Xóa bài viết này?
                     </h3>
-                    <div className="flex justify-around w-5/6 mb-4">
+                    <div className="flex flex-col justify-around items-center w-5/6 ">
                         <button
-                            className="btn btn-error "
+                            className="btn btn-error mb-2"
                             onClick={handleDelete}
                         >
-                            Delete
+                            Xóa bài viết
                         </button>
-                        <button className="btn btn-active ">Cancel</button>
+                        {/* <p className="text-xs text-slate-400">
+                            Click ra ngoài để hủy
+                        </p> */}
                     </div>
                 </div>
                 <form method="dialog" className="modal-backdrop">

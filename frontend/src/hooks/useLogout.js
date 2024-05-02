@@ -21,6 +21,7 @@ const useLogout = () => {
             localStorage.removeItem("user");
             setAuthUser(null);
             location.reload();
+            setTimeout((window.location = "/login"), 1000);
         } catch (error) {
             toast.error(error.message);
         } finally {

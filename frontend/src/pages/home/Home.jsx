@@ -5,7 +5,7 @@ import drlData from "../../assets/DIEM_REN_LUYEN.json";
 const Home = () => {
     return (
         <div className="mt-14 w-5/6">
-            <div className="">
+            {/* <div className="">
                 <input
                     type="number"
                     min="0"
@@ -16,7 +16,7 @@ const Home = () => {
                 <button className="btn btn-active btn-primary text-white ml-4">
                     Check
                 </button>
-            </div>
+            </div> */}
             <Table dataName={drlData} />
         </div>
     );

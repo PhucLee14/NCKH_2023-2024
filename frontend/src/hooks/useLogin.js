@@ -21,7 +21,7 @@ const useLogin = () => {
             if (data.error) {
                 throw new Error(data.error);
             }
-
+            console.log(data);
             localStorage.setItem("user", JSON.stringify(data));
             setAuthUser(data);
             window.location = "/";

@@ -32,14 +32,14 @@ const Header = () => {
     return (
         <div className="flex items-center justify-center h-12 bg-white z-40 fixed left-0 right-0 border-b-slate-300 border">
             <div className="flex justify-center">
-                <Link to="/" className="font-bold mr-2 ml-2">
-                    Home
+                <Link to="/newsfeed" className="font-bold mr-4 ml-4">
+                    Bài viết
                 </Link>
-                <Link to="/newsfeed" className="font-bold mr-2 ml-2">
-                    News
+                <Link to="/" className="font-bold mr-4 ml-4">
+                    Trang chủ
                 </Link>
-                <Link to="/upload" className="font-bold mr-2 ml-2">
-                    Upload
+                <Link to="/upload" className="font-bold mr-4 ml-4">
+                    Đăng bài
                 </Link>
             </div>
             {check ? (

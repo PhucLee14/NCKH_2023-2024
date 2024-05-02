@@ -19,15 +19,22 @@ const newsFeedSchema = new mongoose.Schema(
             type: String,
             require: true,
         },
-        images: {
-            type: Array,
-        },
+        images: [
+            {
+                type: Array,
+            },
+        ],
         comments: [
             {
                 type: String,
                 ref: "Comment",
             },
         ],
+        status: {
+            type: String,
+            enum: ["approve", "pending", "reject"],
+            default: "pending",
+        },
     },
     {
         timestamps: true,

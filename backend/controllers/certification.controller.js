@@ -1,4 +1,13 @@
 import certificationModel from "../models/certification.model.js";
+
+export const getAllCertficate = async (req, res) => {
+    await certificationModel
+        .find({})
+        .populate("authorId")
+        .then((certificate) => res.json(certificate))
+        .catch((err) => res.json(err));
+};
+
 export const createCertificate = async (req, res) => {
     try {
         const { authorId, title, type, images, files, note } = req.body;
@@ -41,4 +50,20 @@ export const deleteCertificate = async (req, res) => {
         })
         .then((res) => res.json(res))
         .catch((err) => res.json(err));
+};
+
+export const updateCertificateStatusById = async (req, res) => {
+    const id = req.params.id;
+    try {
+        const certificate = await certificationModel.findByIdAndUpdate(
+            id,
+            {
+                status: req.body.status,
+            },
+            { new: true }
+        );
+        res.json(certificate);
+    } catch (err) {
+        res.status(500).json(err);
+    }
 };

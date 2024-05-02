@@ -4,7 +4,12 @@ import { useTable } from "react-table";
 import NewsFeed from "../../pages/newsfeed/NewsFeed";
 import axios from "axios";
 import { extractTime } from "../../utils/extractTime";
+import { Link } from "react-router-dom";
 function Table({ dataName }) {
+    var localStorageData = localStorage.getItem("user");
+    if (localStorageData) {
+        var userData = JSON.parse(localStorageData);
+    }
     const [newsFeeds, setNewsFeeds] = useState([]);
     const [modal, setModal] = useState(false);
     const [point, setPoint] = useState(0);
@@ -43,10 +48,32 @@ function Table({ dataName }) {
 
     return (
         <div className="mb-10 flex flex-col">
-            <div className="m-6 mb-0 text-sm flex justify-between">
+            <div className="m-4 mb-0 text-sm flex justify-between items-end">
                 <div>
                     {" "}
                     Điểm hiện tại: <span className="font-bold">{point}</span>
+                </div>
+                <div className="my-4">
+                    {userData ? (
+                        userData.isAdmin ? (
+                            <Link
+                                to={"/certificate/pending"}
+                                className="p-4 rounded-xl bg-indigo-600 text-white font-semibold ml-4"
+                            >
+                                Minh chứng chờ duyệt
+                            </Link>
+                        ) : (
+                            <p></p>
+                        )
+                    ) : (
+                        ""
+                    )}
+                    <Link
+                        to={"/certificate"}
+                        className="p-4 rounded-xl bg-indigo-600 text-white font-semibold ml-4"
+                    >
+                        Thêm minh chứng
+                    </Link>
                 </div>
             </div>
             <table
