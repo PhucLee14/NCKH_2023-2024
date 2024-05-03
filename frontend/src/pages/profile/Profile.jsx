@@ -175,8 +175,8 @@ const Profile = () => {
                                                     {")"}
                                                 </span>
                                             </h3>
-                                            <p className="py-2 text-blue-600 font-bold text-sm">
-                                                {certificate.type}
+                                            <p className="py-2 text-indigo-600 font-bold text-sm">
+                                                Mục {certificate.name}
                                             </p>
                                             <p className="py-4">
                                                 {certificate.note}

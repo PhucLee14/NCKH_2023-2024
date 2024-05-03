@@ -16,6 +16,10 @@ const activitySchema = new mongoose.Schema(
             min: 0,
             max: 6,
         },
+        activityCode: {
+            type: String,
+            require: true,
+        },
     },
     {
         timestamps: true,

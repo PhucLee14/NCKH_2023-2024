@@ -4,6 +4,7 @@ export const getAllNewsFeed = async (req, res) => {
     await newsFeedModel
         .find({})
         .populate("author")
+        // .populate("name")
         .then((newsfeed) => res.json(newsfeed))
         .catch((err) => res.json("Error on the backend"));
 };
@@ -13,6 +14,7 @@ export const getNewsFeedById = async (req, res) => {
     await newsFeedModel
         .findById({ _id: id })
         .populate("author")
+        // .populate("name")
         .populate("comments")
         .then((newsfeed) => res.json(newsfeed))
         .catch((err) => res.json(err));
@@ -25,6 +27,7 @@ export const getNewsFeedByAuthorId = async (req, res) => {
         const newsfeeds = await newsFeedModel
             .find({ author: id })
             .populate("author")
+            // .populate("name")
             .populate("comments");
 
         res.json(newsfeeds);
@@ -40,7 +43,7 @@ export const updateNewsFeedById = async (req, res) => {
         const newsfeed = await newsFeedModel.findByIdAndUpdate(
             id,
             {
-                type: req.body.type,
+                name: req.body.name,
                 title: req.body.title,
                 content: req.body.content,
                 images: req.body.images,

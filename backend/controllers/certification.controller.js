@@ -10,15 +10,14 @@ export const getAllCertficate = async (req, res) => {
 
 export const createCertificate = async (req, res) => {
     try {
-        const { authorId, title, type, images, files, note } = req.body;
+        const { authorId, title, name, note, images } = req.body;
 
         const newCertificate = new certificationModel({
             authorId,
             title,
-            type,
-            images,
-            files,
+            name,
             note,
+            images,
         });
 
         const savedCertificate = await newCertificate.save();

@@ -16,11 +16,11 @@ const NewsFeed = () => {
     }
 
     const typeList = [
-        "Đánh giá về ý thức tham gia học tập",
-        "Đánh giá về ý thức chấp hành nội quy, quy chế, quy định trong nhà trường",
-        "Đánh giá ý thức tham gia các hoạt động chính trị-xã hội, văn hoá, văn nghệ, thể thao, phòng chống tội phạm và các tệ nạn xã hội",
-        "Đánh giá ý thức công dân quan hệ cộng đồng",
-        "Đánh giá về ý thức và kết quả khi tham gia công tác cán bộ lớp, các đoàn thể, tổ chức trong Nhà trường hoặc đạt được thành thành tích đặc biệt trong học, tập rèn luyện",
+        "activity1",
+        "activity2",
+        "activity3",
+        "activity4",
+        "activity5",
     ];
 
     useEffect(() => {
@@ -135,15 +135,18 @@ const NewsFeed = () => {
                 .reverse()
                 .filter((item) => {
                     // return ;
+                    // console.log(item.type);
                     return (
                         // checkValues.map((checkValue) => {
                         //     checkValue.toLowerCase() === ""
                         //         ? item
                         //         : item.type.toLowerCase().includes(search);
                         // }) ||
-                        (checkValues.toLowerCase() === ""
-                            ? item
-                            : item.type.toLowerCase().includes(checkValues)) &&
+                        (item.type
+                            ? checkValues.toLowerCase() === ""
+                                ? item
+                                : item.type.toLowerCase().includes(checkValues)
+                            : "") &&
                         (search.toLowerCase() === ""
                             ? item
                             : item.content.toLowerCase().includes(search))
@@ -228,7 +231,7 @@ const NewsFeed = () => {
                                         {news.title}
                                     </h1>
                                     <p className="ml-4 font-bold text-xs italic text-indigo-600">
-                                        {news.type}
+                                        Hoạt động thuộc mục {news.name}
                                     </p>
                                     <div className="m-4">{news.content}</div>
                                     <div>

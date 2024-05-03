@@ -17,6 +17,8 @@ const Certificate = () => {
     const [type, setType] = useState("");
     const [image, setImage] = useState([]);
     const [imagesObj, setImagesObj] = useState();
+    const [activityNames, setActivityNames] = useState([]);
+    const [name, setName] = useState([]);
 
     const inputRef = useRef(null);
 
@@ -31,6 +33,13 @@ const Certificate = () => {
     } else {
         console.log("Không tìm thấy dữ liệu trong local storage");
     }
+
+    useEffect(() => {
+        axios
+            .get("http://localhost:5000/activity/" + type)
+            .then((res) => setActivityNames(res.data))
+            .catch((err) => console.log(err));
+    }, [type]);
 
     const onDragOver = (e) => {
         e.preventDefault();
@@ -93,27 +102,29 @@ const Certificate = () => {
         console.log(typeof imagesObj);
         const images = []; // Mảng để lưu trữ downloadURL của từng ảnh
 
-        for (let i = 0; i < imagesObj.length; i++) {
-            const imageRef = ref(
-                storage,
-                `/mulitpleFiles/${imagesObj[i].name}`
-            );
+        if (imagesObj) {
+            for (let i = 0; i < imagesObj.length; i++) {
+                const imageRef = ref(
+                    storage,
+                    `/mulitpleFiles/${imagesObj[i].name}`
+                );
 
-            try {
-                // Tải lên ảnh lên Firebase Storage
-                await uploadBytes(imageRef, imagesObj[i]);
+                try {
+                    // Tải lên ảnh lên Firebase Storage
+                    await uploadBytes(imageRef, imagesObj[i]);
 
-                // Lấy downloadURL của ảnh vừa tải lên
-                const url = await getDownloadURL(imageRef);
+                    // Lấy downloadURL của ảnh vừa tải lên
+                    const url = await getDownloadURL(imageRef);
 
-                // Thêm downloadURL vào mảng downloadURLs
-                images.push(url);
+                    // Thêm downloadURL vào mảng downloadURLs
+                    images.push(url);
 
-                // setImgs((prevImages) => [...prevImages, url]);
+                    // setImgs((prevImages) => [...prevImages, url]);
 
-                console.log("Upload success:", url);
-            } catch (error) {
-                console.error("Upload error:", error);
+                    console.log("Upload success:", url);
+                } catch (error) {
+                    console.error("Upload error:", error);
+                }
             }
         }
 
@@ -124,15 +135,15 @@ const Certificate = () => {
         console.log(typeof image);
         // console.log("img:", imgs);
 
-        console.log(title, note, type, images);
+        console.log(title, note, name, images);
         if (note == "" || type == "DEFAULT") {
             toast.error("Please input your content");
         } else {
             axios
                 .post("http://localhost:5000/certificate/create", {
                     authorId,
-                    type,
                     title,
+                    name,
                     note,
                     images,
                 })
@@ -141,7 +152,7 @@ const Certificate = () => {
                     console.log(res);
                 })
                 .catch((err) => {
-                    console.log(err);
+                    console.log(err.message);
                 });
             document.querySelector("#text-title").value = "";
             document.querySelector("#text-content").value = "";
@@ -172,60 +183,73 @@ const Certificate = () => {
                 <div className="w-full bg-white rounded-xl mt-4 h-48 flex flex-col items-center">
                     <textarea
                         id="text-content"
-                        className="textarea textarea-bordered w-full min-h-40 h-2/3 border-none focus:outline-none"
+                        className="textarea textarea-bordered w-full min-h-40 h-2/3 rounded-none border-x-0 border-t-0 border-b-slate-200 focus:outline-none mb-4"
                         placeholder="Ghi chú"
                         onChange={(e) => {
                             setNote(e.target.value);
                         }}
                     ></textarea>
-                    <select
-                        id="select-type"
-                        className=" select-bordered w-[calc(100%-1rem)] h-8 text-sm bg-slate-200 rounded-lg pl-1 outline-none"
-                        onChange={(e) => setType(e.target.value)}
-                        defaultValue={"DEFAULT"}
-                    >
-                        <option disabled className="bg-white" value="DEFAULT">
-                            Choose type
-                        </option>
-                        <option
-                            className="bg-white"
-                            value="Đánh giá về ý thức tham gia học tập"
+                    <div className="flex mx-4">
+                        <select
+                            id="select-type"
+                            className=" select-bordered w-[calc(100%-1rem)] h-8 text-sm bg-slate-200 rounded-lg pl-1 outline-none mr-2"
+                            onChange={(e) => {
+                                setType(e.target.value);
+                            }}
+                            defaultValue={"DEFAULT"}
                         >
-                            Đánh giá về ý thức tham gia học tập
-                        </option>
-                        <option
-                            className="bg-white"
-                            value="Đánh giá về ý thức chấp hành nội quy, quy chế, quy định trong nhà trường"
+                            <option
+                                disabled
+                                className="bg-white"
+                                value="DEFAULT"
+                            >
+                                Loại hoạt động
+                            </option>
+                            <option className="bg-white" value="activity1">
+                                Đánh giá về ý thức tham gia học tập
+                            </option>
+                            <option className="bg-white" value="activity2">
+                                Đánh giá về ý thức chấp hành nội quy, quy chế,
+                                quy định trong nhà trường
+                            </option>
+                            <option className="bg-white" value="activity3">
+                                Đánh giá ý thức tham gia các hoạt động chính
+                                trị-xã hội, văn hoá, văn nghệ, thể thao, phòng
+                                chống tội phạm và các tệ nạn xã hội
+                            </option>
+                            <option className="bg-white" value="activity4">
+                                Đánh giá ý thức công dân quan hệ cộng đồng
+                            </option>
+                            <option className="bg-white" value="activity5">
+                                Đánh giá về ý thức và kết quả khi tham gia công
+                                tác cán bộ lớp, các đoàn thể, tổ chức trong Nhà
+                                trường hoặc đạt được thành thành tích đặc biệt
+                                trong học, tập rèn luyện
+                            </option>
+                        </select>
+                        <select
+                            id="select-type"
+                            className=" select-bordered w-[calc(100%-1rem)] h-8 text-sm bg-slate-200 rounded-lg pl-1 outline-none ml-2"
+                            onChange={(e) => setName(e.target.value)}
+                            defaultValue={"DEFAULT"}
                         >
-                            Đánh giá về ý thức chấp hành nội quy, quy chế, quy
-                            định trong nhà trường
-                        </option>
-                        <option
-                            className="bg-white"
-                            value="Đánh giá ý thức tham gia các hoạt động chính trị-xã hội, văn hoá, văn nghệ, thể thao, phòng chống tội phạm và các tệ nạn xã hội"
-                        >
-                            Đánh giá ý thức tham gia các hoạt động chính trị-xã
-                            hội, văn hoá, văn nghệ, thể thao, phòng chống tội
-                            phạm và các tệ nạn xã hội
-                        </option>
-                        <option
-                            className="bg-white"
-                            value="Đánh giá ý thức công dân quan hệ cộng đồng"
-                        >
-                            Đánh giá ý thức công dân quan hệ cộng đồng
-                        </option>
-                        <option
-                            className="bg-white"
-                            value="Đánh giá về ý thức và kết quả khi tham gia công tác cán bộ lớp, các đoàn thể, tổ chức trong Nhà trường hoặc đạt được thành thành tích đặc biệt trong học, tập rèn luyện"
-                        >
-                            Đánh giá về ý thức và kết quả khi tham gia công tác
-                            cán bộ lớp, các đoàn thể, tổ chức trong Nhà trường
-                            hoặc đạt được thành thành tích đặc biệt trong học,
-                            tập rèn luyện
-                        </option>
-                    </select>
+                            {type
+                                ? activityNames.map((name) => (
+                                      // {
+                                      //     console.log(name);
+                                      // }
+                                      <option
+                                          className="bg-white"
+                                          value={name.code}
+                                      >
+                                          Mục {name.code} - {name.name}
+                                      </option>
+                                  ))
+                                : ""}
+                        </select>
+                    </div>
                 </div>
-                <div className="w-full flex justify-center items-center min-h-48 mt-2">
+                <div className="w-full flex justify-center items-center min-h-48 mt-4">
                     <div
                         className="flex flex-col justify-center items-center border-dashed border-spacing-8 border-slate-400 border-2 py-20 rounded-2xl bg-purple-50 w-full m-4 mb-0"
                         onDragOver={onDragOver}

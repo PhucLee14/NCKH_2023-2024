@@ -11,7 +11,7 @@ const certificationSchema = new mongoose.Schema(
             type: String,
             required: true,
         },
-        type: {
+        name: {
             type: String,
             required: true,
         },

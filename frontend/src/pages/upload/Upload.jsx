@@ -17,6 +17,8 @@ const Upload = () => {
     const [type, setType] = useState("");
     const [image, setImage] = useState([]);
     const [imagesObj, setImagesObj] = useState();
+    const [activityNames, setActivityNames] = useState([]);
+    const [name, setName] = useState("");
     const [status, setStatus] = useState("pending");
     const [loading, setLoading] = useState(false);
 
@@ -37,6 +39,13 @@ const Upload = () => {
         console.log("Không tìm thấy dữ liệu trong local storage");
     }
 
+    useEffect(() => {
+        axios
+            .get("http://localhost:5000/activity/" + type)
+            .then((res) => setActivityNames(res.data))
+            .catch((err) => console.log(err));
+    }, [type]);
+
     const onDragOver = (e) => {
         e.preventDefault();
         e.dataTransfer.dropEffect = "copy";
@@ -48,10 +57,30 @@ const Upload = () => {
 
     const onDrop = (e) => {
         e.preventDefault();
-        const files = e.dataTransfer.files[0];
-        console.log(files);
-        setCheck(!check);
-        // setImages(files);
+        const files = e.dataTransfer.files;
+        setImagesObj(files);
+        console.log("imgobj: ", imagesObj);
+        if (files.length === 0) return;
+        for (let i = 0; i < files.length; i++) {
+            if (files[i].type.split("/")[0] !== "image") {
+                console.log(files[i]);
+                continue;
+            }
+            if (
+                !image.some((e) => {
+                    e.name === files[i].name;
+                })
+            ) {
+                setImage((prevImages) => [
+                    ...prevImages,
+                    {
+                        img: files[i],
+                        name: files[i].name,
+                        url: URL.createObjectURL(files[i]),
+                    },
+                ]);
+            }
+        }
     };
 
     const onFileSelect = (e) => {
@@ -98,47 +127,48 @@ const Upload = () => {
             newObj[index] = value;
         });
         setImagesObj(newObj);
-        console.log(typeof imagesObj);
         const images = []; // Mảng để lưu trữ downloadURL của từng ảnh
 
-        for (let i = 0; i < imagesObj.length; i++) {
-            const imageRef = ref(
-                storage,
-                `/mulitpleFiles/${imagesObj[i].name}`
-            );
+        if (imagesObj) {
+            for (let i = 0; i < imagesObj.length; i++) {
+                const imageRef = ref(
+                    storage,
+                    `/mulitpleFiles/${imagesObj[i].name}`
+                );
 
-            try {
-                // Tải lên ảnh lên Firebase Storage
-                await uploadBytes(imageRef, imagesObj[i]);
+                try {
+                    // Tải lên ảnh lên Firebase Storage
+                    await uploadBytes(imageRef, imagesObj[i]);
 
-                // Lấy downloadURL của ảnh vừa tải lên
-                const url = await getDownloadURL(imageRef);
+                    // Lấy downloadURL của ảnh vừa tải lên
+                    const url = await getDownloadURL(imageRef);
 
-                // Thêm downloadURL vào mảng downloadURLs
-                images.push(url);
+                    // Thêm downloadURL vào mảng downloadURLs
+                    images.push(url);
 
-                // setImgs((prevImages) => [...prevImages, url]);
+                    // setImgs((prevImages) => [...prevImages, url]);
 
-                console.log("Upload success:", url);
-            } catch (error) {
-                console.error("Upload error:", error);
+                    console.log("Upload success:", url);
+                } catch (error) {
+                    console.error("Upload error:", error);
+                }
             }
+            console.log("Download URLs:", typeof images);
         }
-
-        console.log("Download URLs:", typeof images);
 
         // setImgs(downloadURLs);
         console.log(images);
         console.log(typeof image);
         // console.log("img:", imgs);
 
-        console.log(title, content, type, images, status);
+        console.log(title, content, name, images, status);
         if (content == "" || type == "DEFAULT") {
             toast.error("Please input your content");
         } else {
             axios
                 .post("http://localhost:5000/upload", {
                     author,
+                    name,
                     type,
                     title,
                     content,
@@ -167,7 +197,7 @@ const Upload = () => {
             {loading ? (
                 <span className="loading loading-spinner loading-lg"></span>
             ) : (
-                <form className="w-2/5 rounded-lg h-[calc(100%-3.5rem)] flex flex-col justify-center items-center mt-20 bg-white">
+                <form className="w-2/5 rounded-lg h-[calc(100%-3.5rem)] flex flex-col justify-center items-center mt-14 bg-white">
                     <p className="font-semibold mt-4 text-xl">Tạo bài viết</p>
 
                     <div className="w-full bg-white border-y mt-4 flex flex-col items-center">
@@ -183,7 +213,7 @@ const Upload = () => {
                     <div className="w-full bg-white rounded-xl mt-4 h-48 flex flex-col items-center">
                         <textarea
                             id="text-content"
-                            className="textarea textarea-bordered w-full min-h-40 h-2/3 border-none focus:outline-none"
+                            className="textarea textarea-bordered w-full min-h-40 h-2/3 rounded-none border-x-0 border-t-0 border-b-slate-200 focus:outline-none mb-4"
                             placeholder="Nội dung"
                             onChange={(e) => {
                                 setContent(e.target.value);
@@ -193,7 +223,9 @@ const Upload = () => {
                             <select
                                 id="select-type"
                                 className=" select-bordered w-[calc(100%-1rem)] h-8 text-sm bg-slate-200 rounded-lg pl-1 outline-none mr-2"
-                                onChange={(e) => setType(e.target.value)}
+                                onChange={(e) => {
+                                    setType(e.target.value);
+                                }}
                                 defaultValue={"DEFAULT"}
                             >
                                 <option
@@ -203,37 +235,22 @@ const Upload = () => {
                                 >
                                     Loại hoạt động
                                 </option>
-                                <option
-                                    className="bg-white"
-                                    value="Đánh giá về ý thức tham gia học tập"
-                                >
+                                <option className="bg-white" value="activity1">
                                     Đánh giá về ý thức tham gia học tập
                                 </option>
-                                <option
-                                    className="bg-white"
-                                    value="Đánh giá về ý thức chấp hành nội quy, quy chế, quy định trong nhà trường"
-                                >
+                                <option className="bg-white" value="activity2">
                                     Đánh giá về ý thức chấp hành nội quy, quy
                                     chế, quy định trong nhà trường
                                 </option>
-                                <option
-                                    className="bg-white"
-                                    value="Đánh giá ý thức tham gia các hoạt động chính trị-xã hội, văn hoá, văn nghệ, thể thao, phòng chống tội phạm và các tệ nạn xã hội"
-                                >
+                                <option className="bg-white" value="activity3">
                                     Đánh giá ý thức tham gia các hoạt động chính
                                     trị-xã hội, văn hoá, văn nghệ, thể thao,
                                     phòng chống tội phạm và các tệ nạn xã hội
                                 </option>
-                                <option
-                                    className="bg-white"
-                                    value="Đánh giá ý thức công dân quan hệ cộng đồng"
-                                >
+                                <option className="bg-white" value="activity4">
                                     Đánh giá ý thức công dân quan hệ cộng đồng
                                 </option>
-                                <option
-                                    className="bg-white"
-                                    value="Đánh giá về ý thức và kết quả khi tham gia công tác cán bộ lớp, các đoàn thể, tổ chức trong Nhà trường hoặc đạt được thành thành tích đặc biệt trong học, tập rèn luyện"
-                                >
+                                <option className="bg-white" value="activity5">
                                     Đánh giá về ý thức và kết quả khi tham gia
                                     công tác cán bộ lớp, các đoàn thể, tổ chức
                                     trong Nhà trường hoặc đạt được thành thành
@@ -243,56 +260,26 @@ const Upload = () => {
                             <select
                                 id="select-type"
                                 className=" select-bordered w-[calc(100%-1rem)] h-8 text-sm bg-slate-200 rounded-lg pl-1 outline-none ml-2"
-                                onChange={(e) => setType(e.target.value)}
+                                onChange={(e) => setName(e.target.value)}
                                 defaultValue={"DEFAULT"}
                             >
-                                <option
-                                    disabled
-                                    className="bg-white"
-                                    value="DEFAULT"
-                                >
-                                    Tên hoạt động
-                                </option>
-                                <option
-                                    className="bg-white"
-                                    value="Đánh giá về ý thức tham gia học tập"
-                                >
-                                    Đánh giá về ý thức tham gia học tập
-                                </option>
-                                <option
-                                    className="bg-white"
-                                    value="Đánh giá về ý thức chấp hành nội quy, quy chế, quy định trong nhà trường"
-                                >
-                                    Đánh giá về ý thức chấp hành nội quy, quy
-                                    chế, quy định trong nhà trường
-                                </option>
-                                <option
-                                    className="bg-white"
-                                    value="Đánh giá ý thức tham gia các hoạt động chính trị-xã hội, văn hoá, văn nghệ, thể thao, phòng chống tội phạm và các tệ nạn xã hội"
-                                >
-                                    Đánh giá ý thức tham gia các hoạt động chính
-                                    trị-xã hội, văn hoá, văn nghệ, thể thao,
-                                    phòng chống tội phạm và các tệ nạn xã hội
-                                </option>
-                                <option
-                                    className="bg-white"
-                                    value="Đánh giá ý thức công dân quan hệ cộng đồng"
-                                >
-                                    Đánh giá ý thức công dân quan hệ cộng đồng
-                                </option>
-                                <option
-                                    className="bg-white"
-                                    value="Đánh giá về ý thức và kết quả khi tham gia công tác cán bộ lớp, các đoàn thể, tổ chức trong Nhà trường hoặc đạt được thành thành tích đặc biệt trong học, tập rèn luyện"
-                                >
-                                    Đánh giá về ý thức và kết quả khi tham gia
-                                    công tác cán bộ lớp, các đoàn thể, tổ chức
-                                    trong Nhà trường hoặc đạt được thành thành
-                                    tích đặc biệt trong học, tập rèn luyện
-                                </option>
+                                {type
+                                    ? activityNames.map((name) => (
+                                          // {
+                                          //     console.log(name);
+                                          // }
+                                          <option
+                                              className="bg-white"
+                                              value={name.code}
+                                          >
+                                              Mục {name.code} - {name.name}
+                                          </option>
+                                      ))
+                                    : ""}
                             </select>
                         </div>
                     </div>
-                    <div className="w-full flex justify-center items-center min-h-48 mt-2">
+                    <div className="w-full flex justify-center items-center min-h-48 mt-4">
                         <div
                             className="flex flex-col justify-center items-center border-dashed border-spacing-8 border-slate-400 border-2 py-20 rounded-2xl bg-purple-50 w-full m-4 mb-0"
                             onDragOver={onDragOver}
@@ -311,7 +298,7 @@ const Upload = () => {
                                 accept="image/png, image/gif, image/jpeg, video/mp4,video/x-m4v,video/*"
                             />
                             <span
-                                className="pl-1 text-indigo-500 font-bold cursor-pointer"
+                                className="pl-1 text-indigo-500 font-bold cursor-pointer mt-4"
                                 onClick={selectFiles}
                                 role="button"
                             >
@@ -320,11 +307,11 @@ const Upload = () => {
                             </span>
                         </div>
                     </div>
-                    <div className="w-1/3 bg-slate-50 flex flex-wrap shadow-xl mt-4 rounded-lg">
+                    <div className="w-1/2 bg-slate-50 flex flex-wrap shadow-xl mt-4 rounded-xl">
                         {image.map((img, index) => (
-                            <div className="bg-gray-500 w-16 h-16 rounded-md m-2 mr-1 relative overflow-hidden">
+                            <div className="bg-gray-500 w-16 h-16 rounded-md my-2 mx-1 ml-3  relative overflow-hidden">
                                 <span
-                                    className="absolute bg-white rounded-full w-4 h-4 text-center right-0 top-1 right-1 leading-3 cursor-pointer"
+                                    className="absolute bg-white rounded-full w-4 h-4 text-center top-1 right-1 leading-3 cursor-pointer"
                                     onClick={() => deleteImage(index)}
                                 >
                                     &times;

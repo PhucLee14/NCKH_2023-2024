@@ -75,7 +75,7 @@ const NewsPending = () => {
                                         {news.title}
                                     </h1>
                                     <p className="ml-4 font-bold text-xs italic text-indigo-600">
-                                        {news.type}
+                                        Hoạt động thuộc mục {news.name}
                                     </p>
                                     <div className="m-4">{news.content}</div>
                                     <div>

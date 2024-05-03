@@ -15,3 +15,11 @@ export const createActivity = async (req, res) => {
         res.status(500).json(err);
     }
 };
+
+export const getActivityById = async (req, res) => {
+    const { type } = req.params;
+    await activityModel
+        .find({ activityCode: type })
+        .then((activity) => res.json(activity))
+        .catch((err) => res.json(err));
+};

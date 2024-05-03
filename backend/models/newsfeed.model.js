@@ -9,7 +9,11 @@ const newsFeedSchema = new mongoose.Schema(
         },
         type: {
             type: String,
+        },
+        name: {
+            type: String,
             require: true,
+            // ref: "activity",
         },
         title: {
             type: String,
